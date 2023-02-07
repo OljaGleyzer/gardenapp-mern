@@ -4,11 +4,18 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "start": "concurrently \"nodemon server.js\" \"cd ../client && npm start\""
   },
+  "type": "module",
   "author": "Olja Gleyzer",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.9.1"
   }
 }
