@@ -39,7 +39,7 @@ const addMiddlewares = () => {
   );
 
   const corsOptions = {
-    origin: "http://localhost3000.com",
+    origin: "http://localhost:3000",
     credentials: true,
   };
   app.use(cors(corsOptions));

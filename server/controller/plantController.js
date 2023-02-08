@@ -1,6 +1,7 @@
 import plantModel from "../model/plantModel.js";
 
 const getAllPlants = async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   try {
     const allPlants = await plantModel.find({});
     console.log("allPlants :>> ", allPlants);
