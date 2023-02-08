@@ -16,11 +16,16 @@ const plantSchema = new mongoose.Schema({
     required: false,
     unique: false,
   },
-  harvest_season: {
+  harvest: {
     type: String,
     required: false,
     unique: false,
   },
+  image: {
+    type: String,
+    required: true,
+    unique: false,
+  },
 });
-const plantModal = mongoose.model("plant", plantSchema);
-export default plantModal;
+const plantModel = mongoose.model("plant", plantSchema);
+export default plantModel;

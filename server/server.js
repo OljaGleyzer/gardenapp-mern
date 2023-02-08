@@ -4,11 +4,13 @@ import router from "./routes/plants.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
+import plantsRoutes from "./routes/plantsRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 const mongoDBConnection = async () => {
+  mongoose.set("strictQuery", false);
   try {
     await mongoose.connect(process.env.DB);
     console.log("Connection to Mongo DB established on port" + port);
@@ -19,6 +21,7 @@ const mongoDBConnection = async () => {
 
 const loadRoutes = () => {
   app.use("/api", router);
+  app.use("/api/plants", plantsRoutes);
 };
 
 const startServer = () => {
