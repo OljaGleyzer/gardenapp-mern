@@ -6,20 +6,22 @@ function Home() {
   const { plants, error, isLoading } = useContext(PlantsContext);
   console.log("Home data", plants);
   return (
-    <>
-      <h1>Welcome to your Garden App</h1>
-      <h2>discover, communicate, plant</h2>
-      <div className="g-4 row row-cols-md-4 row-cols-1 ">
-        {plants &&
-          plants.map((plant, index) => {
-            return (
-              <div key={plant._id}>
-                <PlantCard plant={plant} />
-              </div>
-            );
-          })}
+    <div className="home-page">
+      <div className="container ">
+        <h1 className="text-center">Welcome to your Garden App</h1>
+        <h2 className="text-center">discover, communicate, plant</h2>
+        <div className="g-4 row row-cols-md-4 row-cols-1 ">
+          {plants &&
+            plants.map((plant, index) => {
+              return (
+                <div key={plant._id}>
+                  <PlantCard plant={plant} />
+                </div>
+              );
+            })}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

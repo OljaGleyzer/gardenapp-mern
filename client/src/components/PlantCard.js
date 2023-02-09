@@ -18,10 +18,13 @@ function PlantCard({ plant }) {
           />
           <Card.Body className="text-overflow justify-content-end">
             <Card.Title>{name}</Card.Title>
-            <Card.Text className="card-text">{description}</Card.Text>
+            <Card.Text className="card-text  ">{description}</Card.Text>
             {/* <Link to={"/"+plant._id}> */}
             <div className="container d-flex align-items-baseline">
-              <Button variant="primary" className="btn btn-primary">
+              <Button
+                variant="primary"
+                className="btn btn-primary custom-button"
+              >
                 Show More{" "}
               </Button>
             </div>
