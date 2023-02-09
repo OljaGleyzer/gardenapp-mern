@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function useFetch() {
-  const [plants, setPlants] = useState([]);
+  const [plants, setPlants] = useState("");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const url = "http://localhost:5000/api/plants/all";
@@ -12,8 +12,8 @@ function useFetch() {
         const response = await fetch(url);
         console.log("respones", response);
         const data = await response.json();
-        console.log("data", data);
-        setPlants(data);
+        console.log("data.allPlants", data.allPlants);
+        setPlants(data.allPlants);
       } catch (err) {
         console.log("error :>> ", error);
         setError(err);
