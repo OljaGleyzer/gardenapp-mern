@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function PlantCard({ plant }) {
   const { name, description, image } = plant;
@@ -19,16 +19,16 @@ function PlantCard({ plant }) {
           <Card.Body className="text-overflow justify-content-end">
             <Card.Title>{name}</Card.Title>
             <Card.Text className="card-text  ">{description}</Card.Text>
-            {/* <Link to={"/"+plant._id}> */}
-            <div className="container d-flex align-items-baseline">
-              <Button
-                variant="primary"
-                className="btn btn-primary custom-button"
-              >
-                Show More{" "}
-              </Button>
-            </div>
-            {/* </Link> */}
+            <Link to={`/plants/${plant._id}`}>
+              <div className="container d-flex align-items-baseline">
+                <Button
+                  variant="primary"
+                  className="btn btn-primary custom-button"
+                >
+                  Show More{" "}
+                </Button>
+              </div>
+            </Link>
           </Card.Body>
         </div>
       </Card>

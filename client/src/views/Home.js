@@ -3,7 +3,7 @@ import PlantCard from "../components/PlantCard";
 import { PlantsContext } from "../store/PlantsContext";
 
 function Home() {
-  const { plants, error, isLoading } = useContext(PlantsContext);
+  const { plants, plant, error, isLoading } = useContext(PlantsContext);
   console.log("Home data", plants);
   return (
     <div className="home-page">
