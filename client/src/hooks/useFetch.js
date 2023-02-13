@@ -32,7 +32,7 @@ function useFetch(_id) {
     fetchData(_id);
   }, [_id]);
 
-  return { data, plant, plants, error, isLoading, setPlants };
+  return { plant, plants, error, isLoading, setPlants };
 }
 
 export default useFetch;

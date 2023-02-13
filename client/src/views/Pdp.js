@@ -1,20 +1,14 @@
-import React, { useContext } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import useFetch from "../hooks/useFetch";
-import { PlantsContext } from "../store/PlantsContext";
 
 function Pdp() {
   const { _id } = useParams();
   console.log("useParams()", useParams());
-
-  // const { plant } = useContext(PlantsContext);
-  // console.log("plant", plant);
-
-  const { data, error, isLoading, setPlants } = useFetch(_id);
+  const { plant, error, isLoading } = useFetch(_id); // add plant to pass it from useFetch but an array
   console.log("plant", plant);
   // const plantById = data && data.plantById ? data.plantById : [];
-  const plant = data.plantById.length > 0 ? data.plantById[0] : null;
+  // const plant = data.plantById.length > 0 ? data.plantById[0] : null; //plantbyId and data not deifined
 
   return (
     <div>
@@ -23,7 +17,7 @@ function Pdp() {
       ) : plant ? (
         <>
           <div className="container">
-            <h1 className="text-center"> {plant.name}</h1>
+            <h1 className="text-center"> {plant.plantByID}</h1>
             <div className="product-img-container">
               <img
                 className="container d-flex justify-content-center"
