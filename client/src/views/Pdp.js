@@ -23,7 +23,7 @@ function Pdp() {
       ) : selectedPlant ? (
         <>
           <div className="container">
-            <h1 className="text-center"> {selectedPlant.name}</h1>
+            <h1 className=" h1-pdp text-center"> {selectedPlant.name}</h1>
             <div className="product-img-container">
               <img
                 className="container d-flex justify-content-center"
@@ -33,8 +33,8 @@ function Pdp() {
             </div>
             <p></p>
             <p>Description: {selectedPlant.description}</p>
-            <h5>Germinating Season: {selectedPlant.germinating_season} €</h5>
-            <h5>Harvest months: {selectedPlant.harvest} €</h5>
+            <h5>Germinating Season: {selectedPlant.germinating_season} </h5>
+            <h5>Harvest months: {selectedPlant.harvest} </h5>
             <div className=" align-items-baseline">
               <Button variant="primary">Save Me</Button>
             </div>

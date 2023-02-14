@@ -6,11 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
- 
+ background-color: tomato;
  
 }
  .home-page{
-background-color: rgb(138, 192, 22);
+background-color: tomato;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -24,6 +24,10 @@ background-color: rgb(138, 192, 22);
 h1{
   color:whitesmoke;
 }
+
+/* .h1-pdp{
+ color: black;
+} */
 h2{
   color: whitesmoke;
 }
