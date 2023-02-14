@@ -19,11 +19,11 @@ function NavigationBar() {
           </li>
           <li>
             {" "}
-            <a href="https://www.google.com">log in</a>
+            <a href="/login">log in</a>
           </li>
           <li>
             {" "}
-            <a href="https://www.google.com">sign up</a>{" "}
+            <a href="/signup">sign up</a>{" "}
           </li>
         </ul>{" "}
       </header>{" "}

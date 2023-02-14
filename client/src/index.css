@@ -40,3 +40,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.login {
+  height: 100%;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.login-inputs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #cecece;
+  margin: 10px;
+}
+
+.login-button {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #cecece;
+  background-color: black;
+  color: white;
+}
+.register-button {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #cecece;
+  background-color: black;
+  color: white;
+}
