@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function useFetch(_id) {
-  const [plant, setPlant] = useState({});
+  const [plant, setPlant] = useState(null);
   const [plants, setPlants] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
