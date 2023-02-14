@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
 import plantsRoutes from "./routes/plantsRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,6 +23,7 @@ const mongoDBConnection = async () => {
 const loadRoutes = () => {
   app.use("/api", router);
   app.use("/api/plants", plantsRoutes);
+  app.use("/api/users", userRoutes);
 };
 
 const startServer = () => {
