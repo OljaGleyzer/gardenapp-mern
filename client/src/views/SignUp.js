@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  // Computed property Names, event handler for all 3 events
   const [newUser, setNewUser] = useState(null);
-
   const handleChangeHandler = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
@@ -27,7 +27,7 @@ const SignUp = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/users/signup",
+        "http://localhost:5000/api/users/signup",
         requestOptions
       );
       const result = await response.json();
@@ -55,18 +55,24 @@ const SignUp = () => {
       <input
         // value={password}
         type="text"
+        name="userName"
+        id="userName"
         placeholder="User Name"
         onChange={handleChangeHandler}
       />
       <input
         // value={email}
         type="email"
+        name="email"
+        id="email"
         placeholder="Email"
         onChange={handleChangeHandler}
       />
       <input
         // value={password}
         type="password"
+        id="password"
+        name="pasword"
         placeholder="Password"
         onChange={handleChangeHandler}
       />

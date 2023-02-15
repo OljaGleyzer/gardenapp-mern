@@ -40,6 +40,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.cardlist-card {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  object-fit: cover;
+}
+
 .login {
   height: 100%;
   min-height: 80vh;

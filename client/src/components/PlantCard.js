@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
 function PlantCard({ plant }) {
-  const { name, description, image } = plant;
+  const { name, description, image, harvest, germinating_season } = plant;
   // console.log("product", product);
   return (
     <>
@@ -16,9 +16,20 @@ function PlantCard({ plant }) {
             src={image}
             className="card-img-top"
           />
-          <Card.Body className="text-overflow justify-content-end">
+          <Card.Body className="">
             <Card.Title>{name}</Card.Title>
-            <Card.Text className="card-text  ">{description}</Card.Text>
+            <div className=" card-text">
+              {/* <Card.Text className=" text-wrap ">{description}</Card.Text> */}
+
+              <Card.Text className=" text-wrap ">
+                {" "}
+                Germinating Month:
+                {germinating_season}
+              </Card.Text>
+              <Card.Text className=" text-wrap ">
+                Harvest Month: {harvest}
+              </Card.Text>
+            </div>
             <Link to={`/plants/${plant._id}`}>
               <div className="container d-flex align-items-baseline">
                 <Button
