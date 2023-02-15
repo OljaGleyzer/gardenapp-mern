@@ -1,5 +1,23 @@
 import bcrypt from "bcrypt";
 import userModel from "../model/userModel.js";
+import { v2 as cloudinary } from "cloudinary";
+
+const uploadUserPicture = async (req, res) => {
+  console.log("req", req.file);
+  try {
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: "Plants",
+    });
+
+    console.log("upload", upload);
+    res.status(200).json({
+      msg: "Image upload ok",
+      imageUrl: upload.url,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "couldnt upload image", error: error });
+  }
+};
 
 const signup = async (req, res) => {
   console.log("req.body :>> ", req.body);
@@ -62,4 +80,4 @@ const encryptPassword = async (password) => {
   }
 };
 
-export { signup };
+export { uploadUserPicture, signup };

@@ -6,6 +6,7 @@ dotenv.config();
 import mongoose from "mongoose";
 import plantsRoutes from "./routes/plantsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import { cloudinaryConfig } from "./config/cloudinary.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -45,12 +46,13 @@ const addMiddlewares = () => {
     credentials: true,
   };
   app.use(cors(corsOptions));
+  cloudinaryConfig();
 };
 
 //IIFE
 (async function controller() {
   await mongoDBConnection();
+  addMiddlewares();
   loadRoutes();
   startServer();
-  addMiddlewares();
 })();
