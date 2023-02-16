@@ -13,12 +13,12 @@ const SignUp = () => {
     urlencoded.append("userName", newUser.userName);
     urlencoded.append("email", newUser.email);
     urlencoded.append("password", newUser.password);
-    //   urlencoded.append(
-    //     "userPicture",
-    //     newUser.userPicture
-    //       ? newUser.userPicture
-    //       : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
-    //   );
+    urlencoded.append(
+      "userPicture",
+      newUser.userPicture
+        ? newUser.userPicture
+        : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+    );
 
     var requestOptions = {
       method: "POST",
@@ -36,14 +36,10 @@ const SignUp = () => {
       console.log("error", error);
     }
   };
-  //   fetch("http://localhost:5001/api/users/signup", requestOptions)
-  //     .then((response) => response.json())
-  //     .then((result) => console.log(result))
-  //     .catch((error) => console.log("error", error));
 
   return (
     <div className="login">
-      {/*    {user.email ? <h1>Hello {user.email}</h1> : */}
+      {/*    {newUser.email ? <h1>Hello {user.email}</h1> : */}
       <h1>Please register: </h1>
       {/*
        <input
