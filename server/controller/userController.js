@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import userModel from "../model/userModel.js";
 import { v2 as cloudinary } from "cloudinary";
+import { passwordEncryption, verifyPassword } from "../utils/bcrypt.js";
+import generateToken from "../utils/jwt.js";
 
 const uploadUserPicture = async (req, res) => {
   console.log("req", req.file);
@@ -24,24 +26,20 @@ const signup = async (req, res) => {
 
   try {
     const existingUser = await userModel.findOne({ email: req.body.email });
+    console.log("existingUser :>> ", existingUser);
 
     if (existingUser) {
-      res
-        .status(409)
-        .json({ msg: "user already exist ...email already in use..." });
+      res.status(409).json({
+        msg: "ups, email already in use....you might have an account and forgot",
+      });
     } else {
-      //REVIEW[epic=demo, seq=23] 23. good place to use express validator middleware, to validate email/password/any other fields. (or any other form of validation/check)
-
-      //REVIEW[epic=demo, seq=19] 19. use encryptPassword function to hash password coming from the request.
-      const hashedPassword = await encryptPassword(req.body.password);
-
-      //REVIEW[epic=demo, seq=20] 20. create new user Object with the encrypted password and the uploaded picture
+      const hashedPassword = await passwordEncryption(req.body.password);
+      console.log("hashedPassword", hashedPassword);
       const newUser = new userModel({
         userName: req.body.userName,
         email: req.body.email,
         password: hashedPassword,
         userPicture: req.body.userPicture,
-        //REVIEW[epic=demo, seq=22] 22. IF we include user Roles, we would have to include it in our newUser object (and Model)
       });
 
       try {
@@ -57,7 +55,7 @@ const signup = async (req, res) => {
         });
       } catch (error) {
         res
-          .status(500)
+          .status(400)
           .json({ msg: "error during user registration", error: error });
       }
     }
@@ -66,18 +64,40 @@ const signup = async (req, res) => {
   }
 };
 
-//REVIEW[epic=demo, seq=17] 17. Start implementing password encription: Install bcrypt
-//REVIEW[epic=demo, seq=18] 18. Import bcrypt and create function to hash password and implement bcrypt technique
-
-const encryptPassword = async (password) => {
+const login = async (req, res) => {
+  console.log("req", req.body);
   try {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    return hashedPassword;
+    const existingUser = await userModel.findOne({ email: req.body.email });
+    console.log("existingUser", existingUser);
+    if (!existingUser) {
+      res.status(401).json({ msg: "wrong email" });
+    } else {
+      const isPasswordMatch = await verifyPassword(
+        req.body.password,
+        existingUser.password
+      );
+      console.log("isPasswordMatch", isPasswordMatch);
+    }
+
+    if (!isPasswordMatch) {
+      res.status(401).json({ msg: "Wrong Password!" });
+    } else {
+      const token = generateToken(existingUser._id);
+      console.log("token", token);
+      res.status(200).json({
+        msg: "you are logged in!!!",
+        token,
+        user: {
+          id: existingUser._id,
+          userName: existingUser.userName,
+          email: existingUser.email,
+          userPicture: existingUser.userPicture,
+        },
+      });
+    }
   } catch (error) {
-    console.log("error hashing password", error);
+    res.status(400).json({ msg: "something went wrong" });
   }
 };
 
-export { uploadUserPicture, signup };
+export { uploadUserPicture, signup, login };
