@@ -77,23 +77,22 @@ const login = async (req, res) => {
         existingUser.password
       );
       console.log("isPasswordMatch", isPasswordMatch);
-    }
-
-    if (!isPasswordMatch) {
-      res.status(401).json({ msg: "Wrong Password!" });
-    } else {
-      const token = generateToken(existingUser._id);
-      console.log("token", token);
-      res.status(200).json({
-        msg: "you are logged in!!!",
-        token,
-        user: {
-          id: existingUser._id,
-          userName: existingUser.userName,
-          email: existingUser.email,
-          userPicture: existingUser.userPicture,
-        },
-      });
+      if (!isPasswordMatch) {
+        res.status(401).json({ msg: "Wrong Password!" });
+      } else {
+        const token = generateToken(existingUser._id);
+        console.log("token", token);
+        res.status(200).json({
+          msg: "you are logged in!!!",
+          token,
+          user: {
+            id: existingUser._id,
+            userName: existingUser.userName,
+            email: existingUser.email,
+            userPicture: existingUser.userPicture,
+          },
+        });
+      }
     }
   } catch (error) {
     res.status(400).json({ msg: "something went wrong" });
