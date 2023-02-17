@@ -1,6 +1,10 @@
 import "./NavBar.css";
+import { getToken } from "../utils/getToken";
+import { useContext } from "react";
+import { AuthContext } from "../store/AuthContext";
 
 function NavigationBar() {
+  const { logout, loggedinUser } = useContext(AuthContext);
   return (
     <>
       <header className="nav-bar">
@@ -20,6 +24,12 @@ function NavigationBar() {
           <li>
             {" "}
             <a href="/login">log in</a>
+          </li>
+          <li>
+            {" "}
+            <a href="/login" onClick={() => logout(getToken, logout)}>
+              logout
+            </a>{" "}
           </li>
           <li>
             {" "}

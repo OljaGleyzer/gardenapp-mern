@@ -3,10 +3,12 @@ import cors from "cors";
 import router from "./routes/plants.js";
 import * as dotenv from "dotenv";
 dotenv.config();
+import passport from "passport";
 import mongoose from "mongoose";
 import plantsRoutes from "./routes/plantsRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { cloudinaryConfig } from "./config/cloudinary.js";
+import jwtStrategy from "./config/passport.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -47,6 +49,8 @@ const addMiddlewares = () => {
   };
   app.use(cors(corsOptions));
   cloudinaryConfig();
+  app.use(passport.initialize());
+  passport.use(jwtStrategy);
 };
 
 //IIFE
