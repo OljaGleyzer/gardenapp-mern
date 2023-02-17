@@ -6,20 +6,21 @@ export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   //   console.log("Auth context runs");
   const [loginUser, setLoginUser] = useState(null);
+  const [loggedinUser, setloggedinUser] = useState(null);
   const handleChangeHandler = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
     // console.log("loginUser", loginUser);
   };
 
-  const login = (email, password) => {
+  const login = () => {
     // Check email format, password length ...avoid making useless requests to the server
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
-    urlencoded.append("email", email);
-    urlencoded.append("password", password);
+    urlencoded.append("email", loginUser.email);
+    urlencoded.append("password", loginUser.password);
 
     const requestOptions = {
       method: "POST",
@@ -35,7 +36,7 @@ export const AuthContextProvider = (props) => {
         if (result.token) {
           console.log(result.token);
           localStorage.setItem("token", result.token);
-          setLoginUser(result.user);
+          setloggedinUser(result.user);
         }
       })
       .catch((error) => console.log("error", error));
