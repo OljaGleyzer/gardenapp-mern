@@ -6,7 +6,7 @@ import { AuthContext } from "../store/AuthContext";
 
 function Login() {
   // const [loginUser, setLoginUser] = useState(null);
-  const { login, handleChangeHandler, setLoginUser, loginUser } =
+  const { login, handleChangeHandler, loginUser, loggedinUser, errorMessage } =
     useContext(AuthContext);
 
   function handleController() {
@@ -15,8 +15,11 @@ function Login() {
 
   return (
     <div className="login">
-      {/*    {newUser.email ? <h1>Hello {user.email}</h1> : */}
-      <h1>Please Login: </h1>
+      {loggedinUser ? (
+        <h1>Hello {loggedinUser.userName}</h1>
+      ) : (
+        <h1>Please Login: </h1>
+      )}
 
       <input
         // value={email}
@@ -34,19 +37,20 @@ function Login() {
         placeholder="Password"
         onChange={handleChangeHandler}
       />
-      {/* {errorMessage ? (
+      {errorMessage ? (
         <p>
           {" "}
           <small>{errorMessage}</small>
+          console.log ('errorMessage', errorMessage)
         </p>
-      ) : null} */}
+      ) : null}
       <button
         className="register-button"
         onClick={login}
         // disabled={
-        //   newUser.password.length < 6 ||
-        //   !newUser.email.includes("@") ||
-        //   !newUser.email.includes(".")
+        //   loginUser.password.length < 6 ||
+        //   !loginUser.email.includes("@") ||
+        //   !loginUser.email.includes(".")
         //     ? true
         //     : false
         // }
