@@ -21,20 +21,26 @@ function NavigationBar() {
             {" "}
             <a href="/">plants</a>{" "}
           </li>
+          {loggedinUser ? (
+            <li>
+              {" "}
+              <a href="/myprofile">My Profile</a>
+            </li>
+          ) : (
+            <li>
+              {" "}
+              <a href="/login">log in</a>{" "}
+            </li>
+          )}
           <li>
             {" "}
-            <a href="/login">log in</a>
+            {loggedinUser && (
+              <a href="/login" onClick={() => logout(getToken, logout)}>
+                logout
+              </a>
+            )}
           </li>
-          <li>
-            {" "}
-            <a href="/login" onClick={() => logout(getToken, logout)}>
-              logout
-            </a>{" "}
-          </li>
-          <li>
-            {" "}
-            <a href="/signup">sign up</a>{" "}
-          </li>
+          <li> {!loggedinUser && <a href="/signup">sign up</a>}</li>
         </ul>{" "}
       </header>{" "}
     </>
