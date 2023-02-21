@@ -6,7 +6,9 @@ export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   //   console.log("Auth context runs");
   const [loginUser, setLoginUser] = useState(null);
-  const [loggedinUser, setloggedinUser] = useState(null);
+  const [loggedinUser, setloggedinUser] = useState("");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const handleChangeHandler = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
     // console.log("loginUser", loginUser);
@@ -32,14 +34,19 @@ export const AuthContextProvider = (props) => {
     fetch("http://localhost:5000/api/users/login", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
+        console.log(result.msg);
+        setMessage(result.msg);
+
         if (result.token) {
           console.log(result.token);
           localStorage.setItem("token", result.token);
           setloggedinUser(result.user);
+          setMessage(result.msg);
         }
       })
       .catch((error) => console.log("error", error));
+    // setMessage(error.msg); //undefined , not error but status code?
+    // console.log("error", error); //WHY undefined?
   };
 
   const logout = () => {
@@ -67,6 +74,8 @@ export const AuthContextProvider = (props) => {
         loggedinUser,
         login,
         logout,
+        getToken,
+        message,
       }}
     >
       {props.children}
