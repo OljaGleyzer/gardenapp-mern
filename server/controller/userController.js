@@ -99,4 +99,8 @@ const login = async (req, res) => {
   }
 };
 
-export { uploadUserPicture, signup, login };
+const getProfile = async (req, res) => {
+  console.log("req.user", req.user);
+  console.log("req", req);
+};
+export { uploadUserPicture, signup, login, getProfile };

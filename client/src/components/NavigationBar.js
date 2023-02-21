@@ -34,7 +34,7 @@ function NavigationBar() {
           )}
           <li>
             {" "}
-            {loggedinUser && (
+            {getToken && (
               <a href="/login" onClick={() => logout(getToken, logout)}>
                 logout
               </a>

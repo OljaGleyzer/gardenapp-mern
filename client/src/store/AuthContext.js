@@ -14,6 +14,13 @@ export const AuthContextProvider = (props) => {
     // console.log("loginUser", loginUser);
   };
 
+  //   useEffect(() => {
+  //     const storedUser = JSON.parse(localStorage.getItem("loggedinUser"));
+  //     if (storedUser) {
+  //       setloggedinUser(storedUser);
+  //     }
+  //   }, [loginUser]);
+
   const login = () => {
     // Check email format, password length ...avoid making useless requests to the server
 
@@ -40,17 +47,17 @@ export const AuthContextProvider = (props) => {
         if (result.token) {
           console.log(result.token);
           localStorage.setItem("token", result.token);
+          //   localStorage.setItem("loggedinUser", JSON.stringify(result.user));
           setloggedinUser(result.user);
           setMessage(result.msg);
         }
       })
       .catch((error) => console.log("error", error));
-    // setMessage(error.msg); //undefined , not error but status code?
-    // console.log("error", error); //WHY undefined?
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    // localStorage.removeItem("loggedinUser");
     setLoginUser(null);
   };
 

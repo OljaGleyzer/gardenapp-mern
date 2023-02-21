@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const SignUp = () => {
   // Computed property Names, event handler for all 3 events
   const [newUser, setNewUser] = useState(null);
+
   const handleChangeHandler = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
@@ -39,8 +40,11 @@ const SignUp = () => {
 
   return (
     <div className="login">
-      {/*    {newUser.email ? <h1>Hello {user.email}</h1> : */}
+      {/* {newUser.userName ? (
+        console.log("loggedinUser", newUser)
+      ) : ( */}
       <h1>Please register: </h1>
+      {/*  )} */}
       {/*
        <input
         value={userName}

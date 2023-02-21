@@ -6,7 +6,7 @@ import { AuthContext } from "../store/AuthContext";
 
 function Login() {
   // const [loginUser, setLoginUser] = useState(null);
-  const { login, handleChangeHandler, loginUser, loggedinUser, errorMessage } =
+  const { login, handleChangeHandler, loginUser, loggedinUser, message } =
     useContext(AuthContext);
 
   function handleController() {
@@ -37,11 +37,10 @@ function Login() {
         placeholder="Password"
         onChange={handleChangeHandler}
       />
-      {errorMessage ? (
+      {message ? (
         <p>
           {" "}
-          <small>{errorMessage}</small>
-          console.log ('errorMessage', errorMessage)
+          <small>{message}</small>
         </p>
       ) : null}
       <button
