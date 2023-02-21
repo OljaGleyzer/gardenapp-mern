@@ -81,6 +81,7 @@ const login = async (req, res) => {
         res.status(401).json({ msg: "Wrong Password!" });
       } else {
         const token = generateToken(existingUser._id);
+
         console.log("token", token);
         res.status(200).json({
           msg: "you are logged in!!!",
@@ -101,6 +102,13 @@ const login = async (req, res) => {
 
 const getProfile = async (req, res) => {
   console.log("req.user", req.user);
-  console.log("req", req);
+
+  res.status(200).json({
+    user: {
+      userName: req.user.userName,
+      email: req.user.email,
+      userPicture: req.user.userPicture,
+    },
+  });
 };
 export { uploadUserPicture, signup, login, getProfile };

@@ -8,9 +8,10 @@ const generateToken = (userId) => {
     issuer: "Code Academy",
   };
   // Put the secret in your .env file
-  const secretOrPrivateKey = process.env.PRIVATKEY;
+  const secretOrPrivateKey = process.env.JWT_KEY;
 
   const token = jwt.sign(payload, secretOrPrivateKey, options);
+
   return token;
 };
 
