@@ -18,7 +18,7 @@ const SignUp = () => {
       "userPicture",
       newUser.userPicture
         ? newUser.userPicture
-        : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+        : "https://res.cloudinary.com/dvqfcis2q/image/upload/v1677069630/Plants/magritte_1_hdpqmv.png"
     );
 
     var requestOptions = {

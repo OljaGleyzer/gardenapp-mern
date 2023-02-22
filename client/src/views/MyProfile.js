@@ -31,6 +31,7 @@ const MyProfile = () => {
           email: result.user.email,
           userPicture: result.user.userPicture,
         });
+        console.log("userProfile", userProfile);
       } catch (error) {
         console.log("error", error);
       }
@@ -41,33 +42,31 @@ const MyProfile = () => {
     }
   };
 
-  // }, []);
-
-  // const [selectedFile, setSelectedFile] = useState(null);
-  // const attachFileHandler = (e) => {
-  //   setSelectedFile(e.target.files[0]);
-  // };
-  // const submitForm = async (e) => {
-  //   e.preventDefault();
-  //   const formdata = new FormData();
-  //   formdata.append("image", selectedFile);
-  //   console.log("formData :>> ", formdata);
-  //   const requestOptions = {
-  //     method: "POST",
-  //     body: formdata,
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       "http://localhost:5000/api/users/imageupload",
-  //       requestOptions
-  //     );
-  //     const result = await response.json();
-  //     console.log("result", result);
-  //     setNewUser({ ...newUser, userPicture: result.imageUrl });
-  //   } catch (error) {
-  //     console.log("error :>> ", error);
-  //   }
-  // };
+  const [selectedFile, setSelectedFile] = useState(null);
+  const attachFileHandler = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+  const submitForm = async (e) => {
+    e.preventDefault();
+    const formdata = new FormData();
+    formdata.append("image", selectedFile);
+    console.log("formData :>> ", formdata);
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/imageupload",
+        requestOptions
+      );
+      const result = await response.json();
+      console.log("result", result);
+      setUserProfile({ ...userProfile, userPicture: result.imageUrl });
+    } catch (error) {
+      console.log("error :>> ", error);
+    }
+  };
 
   useEffect(() => {
     getProfile();
@@ -76,6 +75,7 @@ const MyProfile = () => {
 
   return (
     <div className="container text-center">
+      <h1> Welcome {userProfile?.userName}</h1>
       <span className="user-picture">
         {userProfile && (
           <img
@@ -85,53 +85,15 @@ const MyProfile = () => {
           ></img>
         )}
       </span>
-      <h1> Welcome {userProfile?.userName}</h1>
 
-      {/* <form>
+      <form>
         <input type="file" onChange={attachFileHandler} />
         <button onClick={submitForm}>Upload picture</button>
-      </form> */}
-      {/* <img
-        src={userProfile.userPicture}
-        alt="avatar pic"
-        style={{ width: "100px" }}
-      /> */}
+      </form>
+
       <h2> Personal Information</h2>
       <p>Email: {userProfile?.email}</p>
       <p>Username:{userProfile?.userName}</p>
-      <h2>Account Settings</h2>
-      <form>
-        <label>
-          Change Username:
-          <br />
-          <div className="profile-username-container">
-            <input
-              type="text"
-              id="username"
-              name="username"
-              // onChange={handleNameChange}
-            />
-            <button className="username-button" /* onClick={handleUserName} */>
-              Submit
-            </button>
-          </div>
-        </label>
-        <br />
-        {/* <label>
-              Change Password:
-              <br />
-              <input type="password" id="password" name="password" />
-            </label>
-            <br />
-            <label>
-              Change Email:
-              <br />
-              <input type="email" id="email" name="Email" />
-            </label>
-            <br /> */}
-      </form>
-      <br />
-      {/* <h2>Your Orders</h2> */}
     </div>
   );
 };
