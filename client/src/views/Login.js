@@ -6,17 +6,25 @@ import { AuthContext } from "../store/AuthContext";
 
 function Login() {
   // const [loginUser, setLoginUser] = useState(null);
-  const { login, handleChangeHandler, loginUser, loggedinUser, message } =
-    useContext(AuthContext);
+  const [loginUser, setLoginUser] = useState({});
+  const { login, message } = useContext(AuthContext);
 
-  function handleController() {
-    handleChangeHandler();
-  }
+  // function handleController() {
+  //   handleChangeHandler();
+  // }
 
+  const handleChangeHandler = (e) => {
+    setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
+    console.log("loginUser", loginUser);
+  };
+
+  const submitLogin = () => {
+    login(loginUser.email, loginUser.password);
+  };
   return (
     <div className="login">
-      {loggedinUser ? (
-        <h1>Hello {loggedinUser.userName}</h1>
+      {loginUser ? (
+        <h1>Hello {loginUser.userName}</h1>
       ) : (
         <h1>Please Login: </h1>
       )}
@@ -45,7 +53,7 @@ function Login() {
       ) : null}
       <button
         className="register-button"
-        onClick={login}
+        onClick={submitLogin}
         // disabled={
         //   loginUser.password.length < 6 ||
         //   !loginUser.email.includes("@") ||

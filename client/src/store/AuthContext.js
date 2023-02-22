@@ -5,14 +5,14 @@ import { getToken } from "../utils/getToken";
 export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   //   console.log("Auth context runs");
-  const [loginUser, setLoginUser] = useState(null);
+  //   const [loginUser, setLoginUser] = useState(null); //FIXME check if you can delete this state
   const [loggedinUser, setloggedinUser] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const handleChangeHandler = (e) => {
-    setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-    // console.log("loginUser", loginUser);
-  };
+  //   const handleChangeHandler = (e) => {
+  //     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
+  //     // console.log("loginUser", loginUser);
+  //   }; //FIXME function moved to the component
 
   //   useEffect(() => {
   //     const storedUser = JSON.parse(localStorage.getItem("loggedinUser"));
@@ -21,15 +21,16 @@ export const AuthContextProvider = (props) => {
   //     }
   //   }, [loginUser]);
 
-  const login = () => {
+  const login = (email, password) => {
+    console.log("auth login", email, password);
     // Check email format, password length ...avoid making useless requests to the server
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     const urlencoded = new URLSearchParams();
-    urlencoded.append("email", loginUser.email);
-    urlencoded.append("password", loginUser.password);
+    urlencoded.append("email", email);
+    urlencoded.append("password", password);
 
     const requestOptions = {
       method: "POST",
@@ -58,7 +59,7 @@ export const AuthContextProvider = (props) => {
   const logout = () => {
     localStorage.removeItem("token");
     // localStorage.removeItem("loggedinUser");
-    setLoginUser(null);
+    // setLoginUser(null); //FIXME maybe set the loggedInUser here
   };
 
   useEffect(() => {
@@ -70,14 +71,14 @@ export const AuthContextProvider = (props) => {
     } else {
       console.log("NOT logged in");
     }
-  }, [loginUser]);
+  }, [loggedinUser]);
 
   return (
     <AuthContext.Provider
       value={{
-        handleChangeHandler,
-        loginUser,
-        setLoginUser,
+        // handleChangeHandler,
+        // loginUser,
+        // setLoginUser,
         loggedinUser,
         login,
         logout,

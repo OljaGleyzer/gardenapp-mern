@@ -72,6 +72,11 @@ const login = async (req, res) => {
     if (!existingUser) {
       res.status(401).json({ msg: "wrong email" });
     } else {
+      console.log(
+        " req.body.password, existingUser.password",
+        req.body.password,
+        existingUser.password
+      );
       const isPasswordMatch = await verifyPassword(
         req.body.password,
         existingUser.password

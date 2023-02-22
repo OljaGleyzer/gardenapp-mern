@@ -3,41 +3,44 @@ import { useContext, useState } from "react";
 import { useEffect } from "react";
 import { getToken } from "../utils/getToken";
 
-const MyProfile = async () => {
+const MyProfile = () => {
   const [error, setError] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
 
-  const token = getToken();
+  const getProfile = async () => {
+    const token = getToken();
 
-  // useEffect(() => {
-  if (token) {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
 
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-    };
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
 
-    try {
-      const response = await fetch(
-        "http://localhost:5000/api/users/myprofile",
-        requestOptions
-      );
-      const result = await response.json();
-      setUserProfile({
-        userName: result.user.userName,
-        email: result.user.email,
-        userPicture: result.user.userPicture,
-      });
-    } catch (error) {
-      console.log("error", error);
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/users/myprofile",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("result>>", result);
+        setUserProfile({
+          userName: result.user.userName,
+          email: result.user.email,
+          userPicture: result.user.userPicture,
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      console.log("you need to log in first");
+      setError("you need to log in first");
+      setUserProfile(null);
     }
-  } else {
-    console.log("you need to log in first");
-    setError("you need to log in first");
-    setUserProfile(null);
-  }
+  };
+
   // }, []);
 
   // const [selectedFile, setSelectedFile] = useState(null);
@@ -65,26 +68,37 @@ const MyProfile = async () => {
   //     console.log("error :>> ", error);
   //   }
   // };
+
+  useEffect(() => {
+    getProfile();
+    console.log("useREffect running");
+  }, []);
+
   return (
     <div className="container text-center">
       <span className="user-picture">
-        {userProfile.userPicture && (
-          <img src={userProfile.userPicture} alt="Avatar"></img>
+        {userProfile && (
+          <img
+            src={userProfile.userPicture}
+            alt="Avatar"
+            style={{ width: "100px" }}
+          ></img>
         )}
       </span>
-      <h1> Welcome {userProfile.userName}</h1>
+      <h1> Welcome {userProfile?.userName}</h1>
+
       {/* <form>
         <input type="file" onChange={attachFileHandler} />
         <button onClick={submitForm}>Upload picture</button>
       </form> */}
-      <img
+      {/* <img
         src={userProfile.userPicture}
         alt="avatar pic"
         style={{ width: "100px" }}
-      />
+      /> */}
       <h2> Personal Information</h2>
-      <p>Email: {userProfile.email}</p>
-      <p>Username:{userProfile.userName}</p>
+      <p>Email: {userProfile?.email}</p>
+      <p>Username:{userProfile?.userName}</p>
       <h2>Account Settings</h2>
       <form>
         <label>
