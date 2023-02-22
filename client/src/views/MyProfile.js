@@ -1,11 +1,45 @@
 import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { useEffect } from "react";
-import { AuthContext } from "../store/AuthContext";
+import { getToken } from "../utils/getToken";
 
-function MyProfile() {
-  const { loggedinUser } = useContext(AuthContext);
-  console.log("loggedinUser", loggedinUser);
+const MyProfile = async () => {
+  const [error, setError] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+
+  const token = getToken();
+
+  // useEffect(() => {
+  if (token) {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/users/myprofile",
+        requestOptions
+      );
+      const result = await response.json();
+      setUserProfile({
+        userName: result.user.userName,
+        email: result.user.email,
+        userPicture: result.user.userPicture,
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  } else {
+    console.log("you need to log in first");
+    setError("you need to log in first");
+    setUserProfile(null);
+  }
+  // }, []);
+
   // const [selectedFile, setSelectedFile] = useState(null);
   // const attachFileHandler = (e) => {
   //   setSelectedFile(e.target.files[0]);
@@ -34,23 +68,23 @@ function MyProfile() {
   return (
     <div className="container text-center">
       <span className="user-picture">
-        {loggedinUser.userPicture && (
-          <img src={loggedinUser.userPicture} alt="Avatar"></img>
+        {userProfile.userPicture && (
+          <img src={userProfile.userPicture} alt="Avatar"></img>
         )}
       </span>
-      <h1> Welcome {loggedinUser.userName}</h1>
+      <h1> Welcome {userProfile.userName}</h1>
       {/* <form>
         <input type="file" onChange={attachFileHandler} />
         <button onClick={submitForm}>Upload picture</button>
       </form> */}
       <img
-        src={loggedinUser.userPicture}
+        src={userProfile.userPicture}
         alt="avatar pic"
         style={{ width: "100px" }}
       />
       <h2> Personal Information</h2>
-      <p>Email: {loggedinUser.email}</p>
-      <p>Username:{loggedinUser.userName}</p>
+      <p>Email: {userProfile.email}</p>
+      <p>Username:{userProfile.userName}</p>
       <h2>Account Settings</h2>
       <form>
         <label>
@@ -86,6 +120,6 @@ function MyProfile() {
       {/* <h2>Your Orders</h2> */}
     </div>
   );
-}
+};
 
 export default MyProfile;
