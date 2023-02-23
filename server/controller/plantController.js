@@ -39,4 +39,56 @@ const getPlantById = async (req, res) => {
     });
   }
 };
-export { getAllPlants, getPlantById };
+
+const postPlant = async (req, res) => {
+  console.log("create plant", req.body);
+  console.log("req.body", req.body.name);
+
+  try {
+    const { name, description, germinating_season, harvest, image } = req.body;
+    console.log("req.body", req.body);
+
+    const existingPlant = await plantModel.findOne({ name: req.body.name });
+    console.log("existingPlant :>> ", existingPlant);
+
+    if (existingPlant) {
+      res.status(409).json({
+        msg: "ups, this plant already exists",
+      });
+    } else {
+      const newPlant = new plantModel({
+        userName: req.body.userName,
+        name: req.body.name,
+        description: req.body.description,
+        germinating_season: req.body.germinating_season,
+        harvest: req.body.harvest,
+        image: req.body.image,
+      });
+      console.log("newPlant", newPlant);
+      try {
+        const savedPlant = await newPlant.save();
+        res.status(201).json({
+          msg: "yay, you uploaded a plant",
+          plant: {
+            userName: savedPlant.userName,
+            name: savedPlant.name,
+            description: savedPlant.description,
+            germinating_season: savedPlant.germinating_season,
+            harvest: savedPlant.harvest,
+            image: savedPlant.image,
+          },
+        });
+      } catch (error) {
+        console.log("error during posting");
+        res.status(500).json({
+          msg: "error during posting",
+          error: error,
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ msg: "error in general", error: error });
+  }
+};
+
+export { getAllPlants, getPlantById, postPlant };
