@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { getToken } from "../utils/getToken";
-import { useEffect } from "react";
 import { AuthContext } from "../store/AuthContext";
 
 function Login() {

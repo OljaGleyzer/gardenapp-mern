@@ -71,6 +71,7 @@ const MyProfile = () => {
   useEffect(() => {
     getProfile();
     console.log("useREffect running");
+    // setUserProfile({ ...userProfile, userPicture: result.imageUrl });
   }, []);
 
   return (
@@ -81,7 +82,7 @@ const MyProfile = () => {
           <img
             src={userProfile.userPicture}
             alt="Avatar"
-            style={{ width: "100px" }}
+            style={{ width: "100px", borderRadius: "50%" }}
           ></img>
         )}
       </span>

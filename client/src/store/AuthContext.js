@@ -6,20 +6,9 @@ export const AuthContext = createContext();
 export const AuthContextProvider = (props) => {
   //   console.log("Auth context runs");
   //   const [loginUser, setLoginUser] = useState(null); //FIXME check if you can delete this state
-  const [loggedinUser, setloggedinUser] = useState("");
+  const [loggedinUser, setLoggedinUser] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  //   const handleChangeHandler = (e) => {
-  //     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-  //     // console.log("loginUser", loginUser);
-  //   }; //FIXME function moved to the component
-
-  //   useEffect(() => {
-  //     const storedUser = JSON.parse(localStorage.getItem("loggedinUser"));
-  //     if (storedUser) {
-  //       setloggedinUser(storedUser);
-  //     }
-  //   }, [loginUser]);
 
   const login = (email, password) => {
     console.log("auth login", email, password);
@@ -48,8 +37,7 @@ export const AuthContextProvider = (props) => {
         if (result.token) {
           console.log(result.token);
           localStorage.setItem("token", result.token);
-          //   localStorage.setItem("loggedinUser", JSON.stringify(result.user));
-          setloggedinUser(result.user);
+          setLoggedinUser(result.user);
           setMessage(result.msg);
         }
       })
@@ -58,8 +46,7 @@ export const AuthContextProvider = (props) => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    // localStorage.removeItem("loggedinUser");
-    // setLoginUser(null); //FIXME maybe set the loggedInUser here
+    setLoggedinUser(null);
   };
 
   useEffect(() => {

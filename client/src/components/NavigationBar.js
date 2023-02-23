@@ -4,7 +4,8 @@ import { useContext } from "react";
 import { AuthContext } from "../store/AuthContext";
 
 function NavigationBar() {
-  const { logout, loggedinUser } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+  const token = getToken();
   return (
     <>
       <header className="nav-bar">
@@ -21,7 +22,7 @@ function NavigationBar() {
             {" "}
             <a href="/">plants</a>{" "}
           </li>
-          {loggedinUser ? (
+          {token ? (
             <li>
               {" "}
               <a href="/myprofile">My Profile</a>
@@ -34,13 +35,13 @@ function NavigationBar() {
           )}
           <li>
             {" "}
-            {getToken && (
+            {token && (
               <a href="/login" onClick={() => logout(getToken, logout)}>
                 logout
               </a>
             )}
           </li>
-          <li> {!loggedinUser && <a href="/signup">sign up</a>}</li>
+          <li> {!token && <a href="/signup">sign up</a>}</li>
         </ul>{" "}
       </header>{" "}
     </>
