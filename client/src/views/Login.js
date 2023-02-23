@@ -6,7 +6,8 @@ import { AuthContext } from "../store/AuthContext";
 function Login() {
   // const [loginUser, setLoginUser] = useState(null);
   const [loginUser, setLoginUser] = useState({});
-  const { login, message } = useContext(AuthContext);
+  const { login, loggedinUser, message } = useContext(AuthContext);
+  const token = getToken();
 
   // function handleController() {
   //   handleChangeHandler();
@@ -22,11 +23,7 @@ function Login() {
   };
   return (
     <div className="login">
-      {loginUser ? (
-        <h1>Hello {loginUser.userName}</h1>
-      ) : (
-        <h1>Please Login: </h1>
-      )}
+      {token ? <h1>Hello {loggedinUser.userName}</h1> : <h1>Please Login: </h1>}
 
       <input
         // value={email}
