@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const plantSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,

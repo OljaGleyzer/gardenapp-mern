@@ -50,6 +50,7 @@ const postPlant = async (req, res) => {
 
     const existingPlant = await plantModel.findOne({ name: req.body.name });
     console.log("existingPlant :>> ", existingPlant);
+    console.log("req.user", req.user);
 
     if (existingPlant) {
       res.status(409).json({
@@ -57,7 +58,7 @@ const postPlant = async (req, res) => {
       });
     } else {
       const newPlant = new plantModel({
-        userName: req.body.userName,
+        userName: req.body.userName, // req.body or req.user?
         name: req.body.name,
         description: req.body.description,
         germinating_season: req.body.germinating_season,
@@ -91,4 +92,33 @@ const postPlant = async (req, res) => {
   }
 };
 
-export { getAllPlants, getPlantById, postPlant };
+const deletePlant = async (req, res) => {
+  const { _id } = req.body;
+
+  try {
+    const existingPlant = await plantModel.findOne({
+      _id: _id,
+    });
+
+    if (existingPlant) {
+      await plantModel.findOneAndDelete({
+        _id: _id,
+      });
+
+      res.status(200).json({
+        msg: "Plant deleted successfully",
+      });
+    } else {
+      res.status(404).json({
+        msg: "Plant not found",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      msg: "Error during delete",
+      error: error,
+    });
+  }
+};
+
+export { getAllPlants, getPlantById, postPlant, deletePlant };

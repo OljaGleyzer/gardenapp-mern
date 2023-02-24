@@ -21,6 +21,28 @@ const uploadUserPicture = async (req, res) => {
   }
 };
 
+// const updateUser = async (req, res) => {
+
+//   //extract user id
+//   const { _id, username, image, email, password } = req.body;
+
+//   if (!id) res.status(401).json({
+//     //error
+//   })
+
+//   let updatedUser = {}
+
+//   if (username) updateUser.username = username;
+//   if (image) updateUser.image = image;
+//   if (password) updateUser.password = password;
+
+//   try {
+
+//   } catch (error) {
+
+//   }
+// }
+
 const signup = async (req, res) => {
   console.log("req.body :>> ", req.body);
 

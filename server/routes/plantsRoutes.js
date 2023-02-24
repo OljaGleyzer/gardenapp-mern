@@ -3,6 +3,7 @@ import {
   getAllPlants,
   getPlantById,
   postPlant,
+  deletePlant,
 } from "../controller/plantController.js";
 import jwt from "../middlewares/jwt.js";
 
@@ -13,5 +14,8 @@ router.get("/:_id", getPlantById);
 
 // Post new plant to All collection
 router.post("/all", postPlant);
+
+// Delete a Plant from All collection
+router.delete("/all", deletePlant);
 
 export default router;

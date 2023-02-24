@@ -8,7 +8,7 @@ function PlantCard({ plant }) {
   // console.log("product", product);
   return (
     <>
-      <Card style={{ height: "30em", overflow: "auto" }} className="col">
+      <Card style={{ height: "30em", overflow: "hidden" }} className="col">
         <div className=" cardlist-card ">
           <Card.Img
             style={{ height: "15em", width: "auto" }}
