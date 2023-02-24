@@ -1,10 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
 import { PlantsContext } from "../store/PlantsContext";
+import { Button, Modal, Form } from "react-bootstrap";
 
 function Home() {
   const [harvestMonth, setHarvestMonth] = useState("");
   const [germinationMonth, setGerminationMonth] = useState("");
+  const [newPlant, setNewPlant] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    userName: "",
+    name: "",
+    description: "",
+    germinating_season: "",
+    harvest: "",
+    image: "",
+  });
 
   const { plants, plant, error, isLoading } = useContext(PlantsContext);
   console.log("Home data", plants);
@@ -28,12 +39,57 @@ function Home() {
     ...new Set(plants.map((plant) => plant.germinating_season)),
   ];
 
+  // Add new Plant
+
+  const handleInputChangeModal = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+    console.log("formData", formData);
+  };
+
+  const AddPlant = async (event) => {
+    event.preventDefault();
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      userName: newPlant.userName,
+      name: newPlant.name,
+      description: newPlant.description,
+      germinating_season: newPlant.germinating_season,
+      harvest: newPlant.harvest,
+      image: newPlant.image,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+    };
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/plants/all",
+        requestOptions
+      );
+      const data = await response.json();
+      console.log(data);
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setNewPlant(formData);
+  }, [formData]);
+
   return (
     <div className="home-page">
       <div className="container ">
         <h1 className="text-center">Welcome to your Garden App</h1>
         <h2 className="text-center">discover, communicate, plant</h2>
         <br />
+        {/* Dropdown Filters */}
         <div className="row g-3">
           <div className="col-auto">
             <label
@@ -80,7 +136,89 @@ function Home() {
             </select>
           </div>
         </div>
+        {/* Modal */}
+        <div>
+          <Button onClick={() => setShowModal(true)}>Add Plant</Button>
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add New Plant</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                {/* <Form.Group controlId="formUserName">
+                  <Form.Label>User Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="userName"
+                    placeholder="Enter user name"
+                    value={formData.userName}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group> */}
+
+                <Form.Group controlId="formName">
+                  <Form.Label>Name of the Plant</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    placeholder="Enter plant name"
+                    value={formData.name}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formDescription">
+                  <Form.Label>Description or Questions</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="description"
+                    placeholder="Enter plant description"
+                    value={formData.description}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formGerminatingSeason">
+                  <Form.Label>Germinating Month</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="germinating_season"
+                    placeholder="Enter germinating month"
+                    value={formData.germinating_season}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formHarvest">
+                  <Form.Label>Harvest Month</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="harvest"
+                    placeholder="Enter harvest month"
+                    value={formData.harvest}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="formImage">
+                  <Form.Label>Image URL</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="image"
+                    placeholder="Enter image URL"
+                    value={formData.image}
+                    onChange={handleInputChangeModal}
+                  />
+                </Form.Group>
+              </Form>
+              <Button variant="primary" onClick={AddPlant}>
+                Submit
+              </Button>
+            </Modal.Body>
+          </Modal>
+        </div>
         <br />
+        {/* Displaying Plants */}
         <div className="g-4 row row-cols-md-4 row-cols-1 ">
           {plants &&
             filteredPlants.map((plant, index) => {
