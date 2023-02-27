@@ -13,7 +13,7 @@ router.get("/all", getAllPlants);
 router.get("/:_id", getPlantById);
 
 // Post new plant to All collection
-router.post("/all", postPlant);
+router.post("/all", jwt, postPlant);
 
 // Delete a Plant from All collection
 router.delete("/all", deletePlant);

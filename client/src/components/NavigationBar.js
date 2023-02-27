@@ -2,6 +2,7 @@ import "./NavBar.css";
 import { getToken } from "../utils/getToken";
 import { useContext } from "react";
 import { AuthContext } from "../store/AuthContext";
+import { Link } from "react-router-dom";
 
 function NavigationBar() {
   const { logout } = useContext(AuthContext);
@@ -9,10 +10,10 @@ function NavigationBar() {
   return (
     <>
       <header className="nav-bar">
-        <a href="/" className="logo">
+        <Link to="/" className="logo">
           {" "}
           Garden App{" "}
-        </a>
+        </Link>
         <input className="menu-btn" type="checkbox" id="menu-btn" />
         <label className="menu-icon" htmlFor="menu-btn">
           <span className="navicon"></span>
@@ -20,28 +21,29 @@ function NavigationBar() {
         <ul className="menu">
           <li>
             {" "}
-            <a href="/">plants</a>{" "}
+            {/* <a href="/">plants</a>{" "} */}
+            <Link to="/">plants</Link>{" "}
           </li>
           {token ? (
             <li>
               {" "}
-              <a href="/myprofile">My Profile</a>
+              <Link to="/myprofile">My Profile</Link>
             </li>
           ) : (
             <li>
               {" "}
-              <a href="/login">log in</a>{" "}
+              <Link to="/login">log in</Link>{" "}
             </li>
           )}
           <li>
             {" "}
             {token && (
-              <a href="/login" onClick={() => logout(getToken, logout)}>
+              <Link to="/login" onClick={() => logout(getToken, logout)}>
                 logout
-              </a>
+              </Link>
             )}
           </li>
-          <li> {!token && <a href="/signup">sign up</a>}</li>
+          <li> {!token && <Link to="/signup">sign up</Link>}</li>
         </ul>{" "}
       </header>{" "}
     </>

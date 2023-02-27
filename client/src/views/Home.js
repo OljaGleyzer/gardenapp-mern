@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
 import { PlantsContext } from "../store/PlantsContext";
 import { Button, Modal, Form } from "react-bootstrap";
+import { getToken } from "../utils/getToken";
 
 function Home() {
   const [harvestMonth, setHarvestMonth] = useState("");
@@ -19,6 +20,8 @@ function Home() {
 
   const { plants, plant, error, isLoading } = useContext(PlantsContext);
   console.log("Home data", plants);
+
+  const token = getToken();
 
   // Filter plants by harvest and germination months
   const filteredPlants = plants.filter((plant) => {
@@ -48,9 +51,11 @@ function Home() {
   };
 
   const AddPlant = async (event) => {
+    const token = getToken();
     event.preventDefault();
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
     const raw = JSON.stringify({
       userName: newPlant.userName,
@@ -136,16 +141,20 @@ function Home() {
             </select>
           </div>
         </div>
+        <br />
         {/* Modal */}
         <div>
-          <Button onClick={() => setShowModal(true)}>Add Plant</Button>
-          <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-              <Modal.Title>Add New Plant</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                {/* <Form.Group controlId="formUserName">
+          {token ? (
+            <>
+              {" "}
+              <Button onClick={() => setShowModal(true)}>Add Plant</Button>
+              <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Add New Plant</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    {/* <Form.Group controlId="formUserName">
                   <Form.Label>User Name</Form.Label>
                   <Form.Control
                     type="text"
@@ -156,67 +165,73 @@ function Home() {
                   />
                 </Form.Group> */}
 
-                <Form.Group controlId="formName">
-                  <Form.Label>Name of the Plant</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Enter plant name"
-                    value={formData.name}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group>
+                    <Form.Group controlId="formName">
+                      <Form.Label>Name of the Plant</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="name"
+                        placeholder="Enter plant name"
+                        value={formData.name}
+                        onChange={handleInputChangeModal}
+                      />
+                    </Form.Group>
 
-                <Form.Group controlId="formDescription">
-                  <Form.Label>Description or Questions</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="description"
-                    placeholder="Enter plant description"
-                    value={formData.description}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group>
+                    <Form.Group controlId="formDescription">
+                      <Form.Label>Description or Questions</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="description"
+                        placeholder="Enter plant description"
+                        value={formData.description}
+                        onChange={handleInputChangeModal}
+                      />
+                    </Form.Group>
 
-                <Form.Group controlId="formGerminatingSeason">
-                  <Form.Label>Germinating Month</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="germinating_season"
-                    placeholder="Enter germinating month"
-                    value={formData.germinating_season}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group>
+                    <Form.Group controlId="formGerminatingSeason">
+                      <Form.Label>Germinating Month</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="germinating_season"
+                        placeholder="Enter germinating month"
+                        value={formData.germinating_season}
+                        onChange={handleInputChangeModal}
+                      />
+                    </Form.Group>
 
-                <Form.Group controlId="formHarvest">
-                  <Form.Label>Harvest Month</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="harvest"
-                    placeholder="Enter harvest month"
-                    value={formData.harvest}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group>
+                    <Form.Group controlId="formHarvest">
+                      <Form.Label>Harvest Month</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="harvest"
+                        placeholder="Enter harvest month"
+                        value={formData.harvest}
+                        onChange={handleInputChangeModal}
+                      />
+                    </Form.Group>
 
-                <Form.Group controlId="formImage">
-                  <Form.Label>Image URL</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="image"
-                    placeholder="Enter image URL"
-                    value={formData.image}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group>
-              </Form>
-              <Button variant="primary" onClick={AddPlant}>
-                Submit
-              </Button>
-            </Modal.Body>
-          </Modal>
+                    <Form.Group controlId="formImage">
+                      <Form.Label>Image URL</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="image"
+                        placeholder="Enter image URL"
+                        value={formData.image}
+                        onChange={handleInputChangeModal}
+                      />
+                    </Form.Group>
+                  </Form>
+                  <Button variant="primary" onClick={AddPlant}>
+                    Submit
+                  </Button>
+                </Modal.Body>
+              </Modal>
+            </>
+          ) : (
+            <p>Plesae Log in to add a plant</p>
+          )}
+          ;
         </div>
+
         <br />
         {/* Displaying Plants */}
         <div className="g-4 row row-cols-md-4 row-cols-1 ">

@@ -41,6 +41,7 @@ const getPlantById = async (req, res) => {
 };
 
 const postPlant = async (req, res) => {
+  console.log("req.user", req.user);
   console.log("create plant", req.body);
   console.log("req.body", req.body.name);
 
@@ -64,6 +65,7 @@ const postPlant = async (req, res) => {
         germinating_season: req.body.germinating_season,
         harvest: req.body.harvest,
         image: req.body.image,
+        userEmail: req.user.email,
       });
       console.log("newPlant", newPlant);
       try {
@@ -93,32 +95,54 @@ const postPlant = async (req, res) => {
 };
 
 const deletePlant = async (req, res) => {
+  console.log("req.user", req.user);
+  //check here that req.user.email === selectedPlant.userEmail
   const { _id } = req.body;
 
   try {
-    const existingPlant = await plantModel.findOne({
-      _id: _id,
-    });
+    const selectedPlant = await plantModel.findOne({ _id });
 
-    if (existingPlant) {
-      await plantModel.findOneAndDelete({
-        _id: _id,
-      });
-
-      res.status(200).json({
-        msg: "Plant deleted successfully",
-      });
-    } else {
-      res.status(404).json({
-        msg: "Plant not found",
-      });
+    if (!selectedPlant) {
+      return res.status(404).json({ msg: "Plant not found" });
     }
+
+    if (selectedPlant.userEmail !== req.user.email) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+
+    await plantModel.findOneAndDelete({ _id });
+
+    res.status(200).json({ msg: "Plant deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      msg: "Error during delete",
-      error: error,
-    });
+    console.error(error);
+    res.status(500).json({ msg: "Error during delete", error });
   }
 };
+
+//   try {
+//     const existingPlant = await plantModel.findOne({
+//       _id: _id,
+//     });
+
+//     if (existingPlant) {
+//       await plantModel.findOneAndDelete({
+//         _id: _id,
+//       });
+
+//       res.status(200).json({
+//         msg: "Plant deleted successfully",
+//       });
+//     } else {
+//       res.status(404).json({
+//         msg: "Plant not found",
+//       });
+//     }
+//   } catch (error) {
+//     res.status(500).json({
+//       msg: "Error during delete",
+//       error: error,
+//     });
+//   }
+// };
 
 export { getAllPlants, getPlantById, postPlant, deletePlant };

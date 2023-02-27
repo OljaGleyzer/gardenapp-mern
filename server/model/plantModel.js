@@ -3,8 +3,13 @@ import mongoose from "mongoose";
 const plantSchema = new mongoose.Schema({
   userName: {
     type: String,
+    required: false,
+  },
+  userEmail: {
+    type: String,
     required: true,
   },
+
   name: {
     type: String,
     required: true,

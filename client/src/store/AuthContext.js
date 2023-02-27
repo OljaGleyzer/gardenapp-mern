@@ -7,6 +7,7 @@ export const AuthContextProvider = (props) => {
   //   console.log("Auth context runs");
   //   const [loginUser, setLoginUser] = useState(null); //FIXME check if you can delete this state
   const [loggedinUser, setLoggedinUser] = useState("");
+
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
@@ -32,19 +33,22 @@ export const AuthContextProvider = (props) => {
       .then((response) => response.json())
       .then((result) => {
         console.log(result.msg);
+        console.log(result);
         setMessage(result.msg);
 
         if (result.token) {
           console.log(result.token);
           localStorage.setItem("token", result.token);
           setLoggedinUser(result.user);
+
           setMessage(result.msg);
         }
       })
       .catch((error) => console.log("error", error));
   };
-
+  console.log("%cloggedInUser context:::", "color:red", loggedinUser);
   const logout = () => {
+    console.log("logging out user");
     localStorage.removeItem("token");
     setLoggedinUser(null);
   };
@@ -67,6 +71,7 @@ export const AuthContextProvider = (props) => {
         // loginUser,
         // setLoginUser,
         loggedinUser,
+
         login,
         logout,
         getToken,

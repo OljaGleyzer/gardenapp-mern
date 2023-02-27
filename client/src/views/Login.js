@@ -15,7 +15,7 @@ function Login() {
 
   const handleChangeHandler = (e) => {
     setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-    console.log("loginUser", loginUser);
+    // console.log("loginUser", loginUser);
   };
 
   const submitLogin = () => {
@@ -23,7 +23,7 @@ function Login() {
   };
   return (
     <div className="login">
-      {token ? <h1>Hello {loggedinUser.userName}</h1> : <h1>Please Login: </h1>}
+      {token ? <h1>Hello {loginUser.userName}</h1> : <h1>Please Login: </h1>}
 
       <input
         // value={email}
