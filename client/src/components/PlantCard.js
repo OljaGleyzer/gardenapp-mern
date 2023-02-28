@@ -1,11 +1,12 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PlantCard({ plant }) {
   const { name, description, image, harvest, germinating_season } = plant;
   // console.log("product", product);
+  const redirectTo = useNavigate();
   return (
     <>
       <Card style={{ height: "30em", overflow: "hidden" }} className="col">
@@ -29,17 +30,17 @@ function PlantCard({ plant }) {
               <Card.Text className=" text-wrap ">
                 Harvest Month: {harvest}
               </Card.Text>
+              <br />
             </div>
-            <Link to={`/plants/${plant._id}`}>
-              <div className="container d-flex align-items-baseline">
-                <Button
-                  variant="primary"
-                  className="btn btn-primary custom-button"
-                >
-                  Show More{" "}
-                </Button>
-              </div>
-            </Link>
+            <div className="container d-flex align-items-baseline">
+              <Button
+                variant="primary"
+                className="btn btn-primary custom-button"
+                onClick={() => redirectTo(`/plants/${plant._id}`)}
+              >
+                Show More{" "}
+              </Button>
+            </div>
           </Card.Body>
         </div>
       </Card>

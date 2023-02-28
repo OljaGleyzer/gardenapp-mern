@@ -62,6 +62,30 @@ const MyProfile = () => {
       );
       const result = await response.json();
       console.log("result", result);
+
+      try {
+        const token = getToken();
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        const urlencoded = new URLSearchParams();
+        urlencoded.append("imageURL", result.imageUrl);
+
+        const requestOptions2 = {
+          method: "PUT",
+          headers: myHeaders,
+          body: urlencoded,
+        };
+
+        fetch("http://localhost:5000/api/users/update", requestOptions2)
+          .then((response) => response.json())
+          .then((result) => console.log(result));
+      } catch (error) {
+        console.log("error", error);
+      }
+
       setUserProfile({ ...userProfile, userPicture: result.imageUrl });
     } catch (error) {
       console.log("error :>> ", error);
