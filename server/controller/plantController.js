@@ -59,7 +59,7 @@ const postPlant = async (req, res) => {
       });
     } else {
       const newPlant = new plantModel({
-        userName: req.body.userName, // req.body or req.user?
+        userName: req.user.userName, // req.body or req.user?
         name: req.body.name,
         description: req.body.description,
         germinating_season: req.body.germinating_season,
@@ -100,17 +100,17 @@ const deletePlant = async (req, res) => {
   const { _id } = req.body;
 
   try {
-    const selectedPlant = await plantModel.findOne({ _id });
+    const selectedPlant = await plantModel.findOne({ _id: _id });
 
     if (!selectedPlant) {
       return res.status(404).json({ msg: "Plant not found" });
     }
 
-    if (selectedPlant.userEmail !== req.user.email) {
-      return res.status(401).json({ msg: "Unauthorized" });
-    }
+    // if (selectedPlant.userEmail !== req.user.email) {
+    //   return res.status(401).json({ msg: "Unauthorized" });
+    // }
 
-    await plantModel.findOneAndDelete({ _id });
+    await plantModel.findOneAndDelete({ _id: _id });
 
     res.status(200).json({ msg: "Plant deleted successfully" });
   } catch (error) {
