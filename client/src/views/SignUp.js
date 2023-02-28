@@ -10,10 +10,12 @@ const SignUp = () => {
   };
 
   const fetchSignUp = async () => {
+    console.log("newUser", newUser);
     const urlencoded = new URLSearchParams();
     urlencoded.append("userName", newUser.userName);
     urlencoded.append("email", newUser.email);
     urlencoded.append("password", newUser.password);
+    console.log('urlenconded.get("password)', urlencoded.get("password"));
     urlencoded.append(
       "userPicture",
       newUser.userPicture
@@ -72,7 +74,7 @@ const SignUp = () => {
         // value={password}
         type="password"
         id="password"
-        name="pasword"
+        name="password"
         placeholder="Password"
         onChange={handleChangeHandler}
       />

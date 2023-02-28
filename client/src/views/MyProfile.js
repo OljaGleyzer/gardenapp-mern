@@ -1,11 +1,15 @@
-import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useHref, useNavigate } from "react-router-dom";
+import { useContext, useRef, useState } from "react";
 import { useEffect } from "react";
 import { getToken } from "../utils/getToken";
 
 const MyProfile = () => {
   const [error, setError] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [newUsername, setNewUsername] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  // const inputFileRef = useHref(null);
 
   const getProfile = async () => {
     const token = getToken();
@@ -42,19 +46,23 @@ const MyProfile = () => {
     }
   };
 
-  const [selectedFile, setSelectedFile] = useState(null);
   const attachFileHandler = (e) => {
     setSelectedFile(e.target.files[0]);
   };
   const submitForm = async (e) => {
     e.preventDefault();
+
     const formdata = new FormData();
     formdata.append("image", selectedFile);
     console.log("formData :>> ", formdata);
+    formdata.append("userName", newUsername);
+    formdata.append("password", newPassword);
+
     const requestOptions = {
       method: "POST",
       body: formdata,
     };
+
     try {
       const response = await fetch(
         "http://localhost:5000/api/users/imageupload",
@@ -72,6 +80,8 @@ const MyProfile = () => {
 
         const urlencoded = new URLSearchParams();
         urlencoded.append("imageURL", result.imageUrl);
+        urlencoded.append("password", result.newPassword);
+        urlencoded.append("userName", result.newUsername);
 
         const requestOptions2 = {
           method: "PUT",
@@ -86,7 +96,12 @@ const MyProfile = () => {
         console.log("error", error);
       }
 
-      setUserProfile({ ...userProfile, userPicture: result.imageUrl });
+      setUserProfile({
+        ...userProfile,
+        userPicture: result.imageUrl,
+        password: result.newPassword,
+        userName: result.userName,
+      });
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -111,14 +126,30 @@ const MyProfile = () => {
         )}
       </span>
 
+      <h2> Personal Information</h2>
+      <p>Email: {userProfile?.email}</p>
+      <p>Username: {userProfile?.userName}</p>
+      <h2> Change your Information</h2>
       <form>
         <input type="file" onChange={attachFileHandler} />
         <button onClick={submitForm}>Upload picture</button>
+        <br />
+        <input
+          type="text"
+          placeholder="New username"
+          // value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+        />
+        <br />
+        <input
+          type="password"
+          placeholder="New password"
+          // value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+        <br />
+        <button /* onClick={submitForm} */>Save changes</button>
       </form>
-
-      <h2> Personal Information</h2>
-      <p>Email: {userProfile?.email}</p>
-      <p>Username:{userProfile?.userName}</p>
     </div>
   );
 };

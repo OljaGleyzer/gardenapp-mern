@@ -132,6 +132,7 @@ const updateUser = async (req, res) => {
     const updateUser = await userModel.findOneAndUpdate(
       { _id: req.user._id },
       { userPicture: req.body.imageURL },
+      { userName: req.body.userName },
       { new: true }
     );
     console.log("updateUser", updateUser);
