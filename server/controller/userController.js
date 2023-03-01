@@ -21,6 +21,20 @@ const uploadUserPicture = async (req, res) => {
   }
 };
 
+const updateUserImage = async (req, res) => {
+  try {
+    const updateUserImage = await userModel.findOneAndUpdate(
+      { _id: req.user._id },
+      { userPicture: req.body.imageURL },
+      { new: true }
+    );
+    console.log("updateUserImage", updateUserImage);
+    res.status(200).json(updateUserImage);
+  } catch (error) {
+    res.status(400).json({ msg: "something went wrong" });
+  }
+};
+
 // const updateUser = async (req, res) => {
 
 //   //extract user id
@@ -127,21 +141,6 @@ const login = async (req, res) => {
   }
 };
 
-const updateUser = async (req, res) => {
-  try {
-    const updateUser = await userModel.findOneAndUpdate(
-      { _id: req.user._id },
-      { userPicture: req.body.imageURL },
-      { userName: req.body.userName },
-      { new: true }
-    );
-    console.log("updateUser", updateUser);
-    res.status(200).json(updateUser);
-  } catch (error) {
-    res.status(400).json({ msg: "something went wrong" });
-  }
-};
-
 const getProfile = async (req, res) => {
   console.log("req.user", req.user);
 
@@ -153,4 +152,4 @@ const getProfile = async (req, res) => {
     },
   });
 };
-export { uploadUserPicture, signup, login, getProfile, updateUser };
+export { uploadUserPicture, signup, login, getProfile, updateUserImage };

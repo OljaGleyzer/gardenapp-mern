@@ -154,17 +154,6 @@ function Home() {
                 </Modal.Header>
                 <Modal.Body>
                   <Form>
-                    {/* <Form.Group controlId="formUserName">
-                  <Form.Label>User Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="userName"
-                    placeholder="Enter user name"
-                    value={formData.userName}
-                    onChange={handleInputChangeModal}
-                  />
-                </Form.Group> */}
-
                     <Form.Group controlId="formName">
                       <Form.Label>Name of the Plant</Form.Label>
                       <Form.Control

@@ -4,7 +4,7 @@ import {
   login,
   uploadUserPicture,
   getProfile,
-  updateUser,
+  updateUserImage,
 } from "../controller/userController.js";
 import jwt from "../middlewares/jwt.js";
 import { multerUpload } from "../middlewares/multer.js";
@@ -12,7 +12,7 @@ import { multerUpload } from "../middlewares/multer.js";
 const router = express.Router();
 
 router.post("/imageupload", multerUpload.single("image"), uploadUserPicture);
-router.put("/update", jwt, updateUser);
+router.put("/updateuserimage", jwt, updateUserImage);
 router.post("/signup", signup);
 router.post("/login", login);
 router.get("/myprofile", jwt, getProfile);

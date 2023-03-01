@@ -35,7 +35,7 @@ const MyProfile = () => {
           email: result.user.email,
           userPicture: result.user.userPicture,
         });
-        console.log("userProfile", userProfile);
+        // console.log("userProfile", userProfile);
       } catch (error) {
         console.log("error", error);
       }
@@ -55,8 +55,8 @@ const MyProfile = () => {
     const formdata = new FormData();
     formdata.append("image", selectedFile);
     console.log("formData :>> ", formdata);
-    formdata.append("userName", newUsername);
-    formdata.append("password", newPassword);
+    // formdata.append("userName", newUsername);
+    // formdata.append("password", newPassword);
 
     const requestOptions = {
       method: "POST",
@@ -80,8 +80,8 @@ const MyProfile = () => {
 
         const urlencoded = new URLSearchParams();
         urlencoded.append("imageURL", result.imageUrl);
-        urlencoded.append("password", result.newPassword);
-        urlencoded.append("userName", result.newUsername);
+        // urlencoded.append("password", result.newPassword);
+        // urlencoded.append("userName", result.newUsername);
 
         const requestOptions2 = {
           method: "PUT",
@@ -89,7 +89,10 @@ const MyProfile = () => {
           body: urlencoded,
         };
 
-        fetch("http://localhost:5000/api/users/update", requestOptions2)
+        fetch(
+          "http://localhost:5000/api/users/updateuserimage",
+          requestOptions2
+        )
           .then((response) => response.json())
           .then((result) => console.log(result));
       } catch (error) {
@@ -99,9 +102,10 @@ const MyProfile = () => {
       setUserProfile({
         ...userProfile,
         userPicture: result.imageUrl,
-        password: result.newPassword,
-        userName: result.userName,
+        // password: result.newPassword,
+        // userName: result.username,
       });
+      console.log("userProfile", userProfile);
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -109,7 +113,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     getProfile();
-    console.log("useREffect running");
+    console.log("usereffect running");
     // setUserProfile({ ...userProfile, userPicture: result.imageUrl });
   }, []);
 
@@ -121,7 +125,12 @@ const MyProfile = () => {
           <img
             src={userProfile.userPicture}
             alt="Avatar"
-            style={{ width: "100px", borderRadius: "50%" }}
+            style={{
+              width: "100px",
+              borderRadius: "50%",
+              aspectRatio: "1/1",
+              objectFit: "cover",
+            }}
           ></img>
         )}
       </span>
@@ -137,18 +146,18 @@ const MyProfile = () => {
         <input
           type="text"
           placeholder="New username"
-          // value={newUsername}
+          value={newUsername}
           onChange={(e) => setNewUsername(e.target.value)}
         />
         <br />
         <input
           type="password"
           placeholder="New password"
-          // value={newPassword}
+          value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <br />
-        <button /* onClick={submitForm} */>Save changes</button>
+        <button onClick={submitForm}>Save changes</button>
       </form>
     </div>
   );
