@@ -5,7 +5,11 @@ import { getToken } from "../utils/getToken";
 
 const MyProfile = () => {
   const [error, setError] = useState(null);
-  const [userProfile, setUserProfile] = useState(null);
+  const [userProfile, setUserProfile] = useState({
+    userName: "",
+    password: "",
+  });
+  const [result, setResult] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -71,6 +75,11 @@ const MyProfile = () => {
       const result = await response.json();
       console.log("result", result);
 
+      setUserProfile({
+        ...userProfile,
+        userPicture: result.imageUrl,
+      });
+
       try {
         const token = getToken();
         const myHeaders = new Headers();
@@ -102,12 +111,44 @@ const MyProfile = () => {
       setUserProfile({
         ...userProfile,
         userPicture: result.imageUrl,
-        // password: result.newPassword,
-        // userName: result.username,
       });
       console.log("userProfile", userProfile);
     } catch (error) {
       console.log("error :>> ", error);
+    }
+  };
+
+  const userUpdate = async () => {
+    try {
+      const token = getToken();
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("userName", newUsername);
+      urlencoded.append("password", newPassword);
+
+      const requestOptions3 = {
+        method: "PUT",
+        headers: myHeaders,
+        body: urlencoded,
+      };
+
+      const response = await fetch(
+        "http://localhost:5000/api/users/updateuserinfo",
+        requestOptions3
+      );
+      const updatedUserProfile = await response.json();
+      console.log("updatedUserProfile", updatedUserProfile);
+      setUserProfile({
+        ...userProfile,
+        password: updatedUserProfile.user.password,
+        userName: updatedUserProfile.user.userName,
+      });
+      setResult(updatedUserProfile);
+    } catch (error) {
+      console.log("error", error);
     }
   };
 
@@ -139,26 +180,38 @@ const MyProfile = () => {
       <p>Email: {userProfile?.email}</p>
       <p>Username: {userProfile?.userName}</p>
       <h2> Change your Information</h2>
-      <form>
-        <input type="file" onChange={attachFileHandler} />
-        <button onClick={submitForm}>Upload picture</button>
-        <br />
-        <input
-          type="text"
-          placeholder="New username"
-          value={newUsername}
-          onChange={(e) => setNewUsername(e.target.value)}
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="New password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-        <br />
-        <button onClick={submitForm}>Save changes</button>
-      </form>
+      <>
+        <form onSubmit={submitForm}>
+          <input type="file" onChange={attachFileHandler} />
+          <button type="submit" onClick={(e) => submitForm(e)}>
+            Upload picture
+          </button>
+        </form>
+      </>
+      <br />
+      {/* <form onSubmit={userUpdate}> */}
+      <input
+        type="text"
+        name="newUsername"
+        placeholder="New username"
+        value={newUsername}
+        onChange={(e) => setNewUsername(e.target.value)}
+      />
+
+      <br />
+      <input
+        type="password"
+        name="newPassword"
+        placeholder="New password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+      />
+      <br />
+      <button type="button" onClick={() => userUpdate()}>
+        Update Profile
+      </button>
+      {/* </form> */}
+      {/* {result && <p>Updated user profile: {JSON.stringify(result)}</p>} */}
     </div>
   );
 };

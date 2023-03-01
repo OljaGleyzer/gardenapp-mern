@@ -141,6 +141,21 @@ const login = async (req, res) => {
   }
 };
 
+const updateUserInfo = async (req, res) => {
+  try {
+    const hashedPassword = await passwordEncryption(req.body.password);
+    const updateUserInfo = await userModel.findOneAndUpdate(
+      { _id: req.user._id },
+      { userName: req.body.userName, password: hashedPassword },
+      { new: true }
+    );
+    console.log("updateUserInfo", updateUserInfo);
+    res.status(200).json({ msg: "yuhuu, Info updated", user: updateUserInfo });
+  } catch (error) {
+    res.status(400).json({ msg: "something went wrong" });
+  }
+};
+
 const getProfile = async (req, res) => {
   console.log("req.user", req.user);
 
@@ -152,4 +167,11 @@ const getProfile = async (req, res) => {
     },
   });
 };
-export { uploadUserPicture, signup, login, getProfile, updateUserImage };
+export {
+  uploadUserPicture,
+  signup,
+  login,
+  getProfile,
+  updateUserImage,
+  updateUserInfo,
+};
