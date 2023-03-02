@@ -120,6 +120,7 @@ const deletePlant = async (req, res) => {
 };
 
 const postComment = async (req, res) => {
+  console.log("req.user:", req.user);
   const plantID = req.params._id;
   try {
     const commentToSubmit = {
