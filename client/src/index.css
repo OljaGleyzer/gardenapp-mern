@@ -15,11 +15,24 @@ background-color: tomato;
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
-  background-image: url(https://images.unsplash.com/photo-1629398781484-5e0035f934fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80);
+  background-image: url(https://res.cloudinary.com/dvqfcis2q/image/upload/v1677687188/Plants/strawberry.jpg_eida8n.jpg);
   background-size: cover;
   background-repeat: repeat;
   background-position: center center;
 } 
+
+.profile-page{
+  background-color: tomato;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+background-image: url(https://res.cloudinary.com/dvqfcis2q/image/upload/v1677248952/Plants/thitiphum-koonjantuek-TFqjlTmkeyY-unsplash_n3lqdc.jpg);
+    background-size:cover;
+
+    background-repeat: repeat;
+    background-position: center center;
+}
 
 h1{
   color:whitesmoke;

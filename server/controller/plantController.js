@@ -119,30 +119,29 @@ const deletePlant = async (req, res) => {
   }
 };
 
-//   try {
-//     const existingPlant = await plantModel.findOne({
-//       _id: _id,
-//     });
+const postComment = async (req, res) => {
+  const plantID = req.params._id;
+  try {
+    const commentToSubmit = {
+      ...req.body,
+      author: String(req.user.userName),
+      authorPicture: String(req.user.userPicture),
+    };
+    const plant = await plantModel.findOneAndUpdate(
+      { _id: plantID },
+      {
+        $push: { comments: commentToSubmit },
+      },
+      { new: true }
+    );
+    console.log("plantID", plantID);
+    if (!plant) {
+      return res.status(404).json({ error: "ID not found." });
+    }
+    return res.status(200).json({ msg: "comment submitted", plant });
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+};
 
-//     if (existingPlant) {
-//       await plantModel.findOneAndDelete({
-//         _id: _id,
-//       });
-
-//       res.status(200).json({
-//         msg: "Plant deleted successfully",
-//       });
-//     } else {
-//       res.status(404).json({
-//         msg: "Plant not found",
-//       });
-//     }
-//   } catch (error) {
-//     res.status(500).json({
-//       msg: "Error during delete",
-//       error: error,
-//     });
-//   }
-// };
-
-export { getAllPlants, getPlantById, postPlant, deletePlant };
+export { getAllPlants, getPlantById, postPlant, deletePlant, postComment };

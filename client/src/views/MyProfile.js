@@ -159,59 +159,61 @@ const MyProfile = () => {
   }, []);
 
   return (
-    <div className="container text-center">
-      <h1> Welcome {userProfile?.userName}</h1>
-      <span className="user-picture">
-        {userProfile && (
-          <img
-            src={userProfile.userPicture}
-            alt="Avatar"
-            style={{
-              width: "100px",
-              borderRadius: "50%",
-              aspectRatio: "1/1",
-              objectFit: "cover",
-            }}
-          ></img>
-        )}
-      </span>
+    <div className="profile-page">
+      <div className="container text-center">
+        <h1> Welcome {userProfile?.userName}</h1>
+        <span className="user-picture">
+          {userProfile && (
+            <img
+              src={userProfile.userPicture}
+              alt="Avatar"
+              style={{
+                width: "100px",
+                borderRadius: "50%",
+                aspectRatio: "1/1",
+                objectFit: "cover",
+              }}
+            ></img>
+          )}
+        </span>
 
-      <h2> Personal Information</h2>
-      <p>Email: {userProfile?.email}</p>
-      <p>Username: {userProfile?.userName}</p>
-      <h2> Change your Information</h2>
-      <>
-        <form onSubmit={submitForm}>
-          <input type="file" onChange={attachFileHandler} />
-          <button type="submit" onClick={(e) => submitForm(e)}>
-            Upload picture
-          </button>
-        </form>
-      </>
-      <br />
-      {/* <form onSubmit={userUpdate}> */}
-      <input
-        type="text"
-        name="newUsername"
-        placeholder="New username"
-        value={newUsername}
-        onChange={(e) => setNewUsername(e.target.value)}
-      />
+        <h2> Personal Information</h2>
+        <p>Email: {userProfile?.email}</p>
+        <p>Username: {userProfile?.userName}</p>
+        <h2> Change your Information</h2>
+        <>
+          <form onSubmit={submitForm}>
+            <input type="file" onChange={attachFileHandler} />
+            <button type="submit" onClick={(e) => submitForm(e)}>
+              Upload picture
+            </button>
+          </form>
+        </>
+        <br />
+        {/* <form onSubmit={userUpdate}> */}
+        <input
+          type="text"
+          name="newUsername"
+          placeholder="New username"
+          value={newUsername}
+          onChange={(e) => setNewUsername(e.target.value)}
+        />
 
-      <br />
-      <input
-        type="password"
-        name="newPassword"
-        placeholder="New password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <br />
-      <button type="button" onClick={() => userUpdate()}>
-        Update Profile
-      </button>
-      {/* </form> */}
-      {/* {result && <p>Updated user profile: {JSON.stringify(result)}</p>} */}
+        <br />
+        <input
+          type="password"
+          name="newPassword"
+          placeholder="New password"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+        />
+        <br />
+        <button type="button" onClick={() => userUpdate()}>
+          Update Profile
+        </button>
+        {/* </form> */}
+        {/* {result && <p>Updated user profile: {JSON.stringify(result)}</p>} */}
+      </div>
     </div>
   );
 };
