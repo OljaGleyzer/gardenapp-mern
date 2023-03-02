@@ -15,10 +15,16 @@ function Pdp() {
   const [selectedPlant, setSelectedPlant] = useState(null);
   console.log("selctedPlant", selectedPlant);
   const [showModal, setShowModal] = useState(false);
-  const [newComment, setNewComment] = useState(null);
+  const [newComment, setNewComment] = useState({
+    text: "",
+    author: "",
+    authorPicture: "",
+  });
+  const [inputText, setInputText] = useState("");
+  const [updatedComments, setUpdatedComments] = useState([]);
 
   const { loggedinUser } = useContext(AuthContext);
-  console.log("%cloggedinUser.userName", "color:orange", loggedinUser); //FIXME - loggedinUser is undefined why?
+  console.log("%cloggedinUser", "color:orange", loggedinUser); //FIXME - loggedinUser is undefined why?
 
   const handleDeletePlant = async () => {
     const token = getToken();
@@ -46,6 +52,69 @@ function Pdp() {
       console.log("error", error);
     }
   };
+
+  //post comment
+  const handleInputChange = (e) => {
+    console.log("e.target.name, e.target.value", e.target.name, e.target.value);
+    setInputText(e.target.value);
+    setNewComment({
+      ...newComment,
+      text: e.target.value,
+    });
+  };
+
+  const handleComment = async () => {
+    const token = getToken();
+
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      setNewComment({
+        ...newComment,
+        author: loggedinUser.userName,
+        authorPicture: loggedinUser.userPicture,
+      });
+
+      const urlencoded = new URLSearchParams();
+      urlencoded.append("text", inputText /* && newComment.text */);
+      console.log("newComment", newComment.text);
+      console.log("newComment.text", newComment.text);
+
+      const requestOptions2 = {
+        method: "POST",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+
+      const response = await fetch(
+        `http://localhost:5000/api/plants/${_id}/comments`,
+        requestOptions2
+      );
+      const result = await response.json();
+      console.log(result);
+      if (result.msg === "comment submitted") {
+        setUpdatedComments(result.plant.comments);
+        // setNewComment({});
+        setInputText("");
+      }
+    } catch (error) {
+      console.log("something went wrong", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   if (plant) {
+  //     const newSelectedPlant = plant.plantById[0];
+  //     if (updatedComments) {
+  //       // update the comments on the selected plant
+  //       newSelectedPlant.comments = updatedComments;
+  //     }
+  //     setSelectedPlant(newSelectedPlant);
+  //   }
+  // }, [plant, updatedComments]);
 
   useEffect(() => {
     if (plant) {
@@ -124,7 +193,7 @@ function Pdp() {
                         objectFit: "cover",
                       }}
                     ></img>
-                    <p> Comment: {comment.comment}</p>
+                    <p> Comment: {comment.text}</p>
                   </div>
                 );
               })}
@@ -132,11 +201,15 @@ function Pdp() {
               <input
                 type="text"
                 className="text-center"
-                // value={text}
-                // onChange={handleComment}
+                value={inputText}
+                onChange={handleInputChange}
               />
+
               {loggedinUser ? (
-                <button className="comment-button" /* onClick={addComment} */>
+                <button
+                  className="comment-button"
+                  onClick={() => handleComment()}
+                >
                   Submit
                 </button>
               ) : (
