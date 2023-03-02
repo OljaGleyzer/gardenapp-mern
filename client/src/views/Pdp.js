@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import useFetch from "../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ function Pdp() {
   const [selectedPlant, setSelectedPlant] = useState(null);
   console.log("selctedPlant", selectedPlant);
   const [showModal, setShowModal] = useState(false);
+  const [newComment, setNewComment] = useState(null);
 
   const { loggedinUser } = useContext(AuthContext);
   console.log("%cloggedinUser.userName", "color:orange", loggedinUser); //FIXME - loggedinUser is undefined why?
@@ -87,16 +88,6 @@ function Pdp() {
             )}
 
             <h1 className=" h1-pdp text-center"> {selectedPlant.name}</h1>
-            {/* {loggedinUser === selectedPlant.userName && (
-              <div className="text-right">
-                <FontAwesomeIcon
-                
-                  id="circlexmark-icon"
-                  onClick={handleIcon}
-                  icon={faCircleXmark}
-                />
-              </div>
-            )} */}
             <div className="product-img-container">
               <img
                 className="container d-flex justify-content-center"
@@ -106,10 +97,53 @@ function Pdp() {
             </div>
             <p>Author: {selectedPlant.userName}</p>
             <p>Description: {selectedPlant.description}</p>
-            <h5>Germinating Season: {selectedPlant.germinating_season} </h5>
-            <h5>Harvest months: {selectedPlant.harvest} </h5>
+            <h5>Germinating month: {selectedPlant.germinating_season} </h5>
+            <h5>Harvest month: {selectedPlant.harvest} </h5>
             <div className=" align-items-baseline">
-              <Button variant="primary">Save Me</Button>
+              {/* <Button variant="primary">Save Me</Button> */}
+            </div>
+          </div>
+
+          <h2 className="text-center">
+            {" "}
+            Post a comment or a question for : {selectedPlant.name}
+          </h2>
+          <div className="comment-section container">
+            {selectedPlant.comments &&
+              selectedPlant.comments.map((comment, i) => {
+                return (
+                  <div className="comment text-center" /* key={i} */>
+                    <p> Author: {comment.author}</p>
+                    <img
+                      src={comment.authorPicture}
+                      alt="Avatar"
+                      style={{
+                        width: "100px",
+                        borderRadius: "50%",
+                        aspectRatio: "1/1",
+                        objectFit: "cover",
+                      }}
+                    ></img>
+                    <p> Comment: {comment.comment}</p>
+                  </div>
+                );
+              })}
+            <div className="text-center input-comment">
+              <input
+                type="text"
+                className="text-center"
+                // value={text}
+                // onChange={handleComment}
+              />
+              {loggedinUser ? (
+                <button className="comment-button" /* onClick={addComment} */>
+                  Submit
+                </button>
+              ) : (
+                <Link to="/login">
+                  <button> login first</button>
+                </Link>
+              )}
             </div>
           </div>
           {/* <Comments id={product.id} /> */}
