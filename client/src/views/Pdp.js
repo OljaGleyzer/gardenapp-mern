@@ -21,7 +21,7 @@ function Pdp() {
     authorPicture: "",
   });
   const [inputText, setInputText] = useState("");
-  const [updatedComments, setUpdatedComments] = useState([]);
+  // const [updatedComments, setUpdatedComments] = useState([]);
 
   const { loggedinUser } = useContext(AuthContext);
   console.log("%cloggedinUser", "color:orange", loggedinUser); //FIXME - loggedinUser is undefined why?
@@ -71,12 +71,6 @@ function Pdp() {
       myHeaders.append("Authorization", `Bearer ${token}`);
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-      setNewComment({
-        ...newComment,
-        author: loggedinUser.userName,
-        authorPicture: loggedinUser.userPicture,
-      });
-
       const urlencoded = new URLSearchParams();
       urlencoded.append("text", inputText /* && newComment.text */);
       console.log("newComment", newComment.text);
@@ -96,25 +90,21 @@ function Pdp() {
       const result = await response.json();
       console.log(result);
       if (result.msg === "comment submitted") {
-        setUpdatedComments(result.plant.comments);
-        // setNewComment({});
+        const updatedComments = [...selectedPlant.comments, newComment];
+        setSelectedPlant({
+          ...selectedPlant,
+          comments: updatedComments,
+          author: loggedinUser.userName,
+          authorPicture: loggedinUser.userPicture,
+        });
         setInputText("");
+        // setUpdatedComments(result.plant.comments);
+        // setInputText("");
       }
     } catch (error) {
       console.log("something went wrong", error);
     }
   };
-
-  // useEffect(() => {
-  //   if (plant) {
-  //     const newSelectedPlant = plant.plantById[0];
-  //     if (updatedComments) {
-  //       // update the comments on the selected plant
-  //       newSelectedPlant.comments = updatedComments;
-  //     }
-  //     setSelectedPlant(newSelectedPlant);
-  //   }
-  // }, [plant, updatedComments]);
 
   useEffect(() => {
     if (plant) {
