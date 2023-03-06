@@ -52,6 +52,11 @@ const plantSchema = new mongoose.Schema({
     unique: false,
   },
   comments: [commentSchema],
+  favs: [
+    {
+      type: String,
+    },
+  ],
 });
 const plantModel = mongoose.model("plant", plantSchema);
 export default plantModel;

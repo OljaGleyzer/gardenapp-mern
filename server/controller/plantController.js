@@ -95,7 +95,7 @@ const postPlant = async (req, res) => {
 };
 
 const deletePlant = async (req, res) => {
-  console.log("req.user", req.user);
+  // console.log("req.user", req.user);
   //check here that req.user.email === selectedPlant.userEmail
   const { _id } = req.body;
 
@@ -120,7 +120,7 @@ const deletePlant = async (req, res) => {
 };
 
 const postComment = async (req, res) => {
-  console.log("req.user:", req.user);
+  // console.log("req.user:", req.user);
   const plantID = req.params._id;
   try {
     const commentToSubmit = {
@@ -145,4 +145,69 @@ const postComment = async (req, res) => {
   }
 };
 
-export { getAllPlants, getPlantById, postPlant, deletePlant, postComment };
+const deleteComment = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { commentId } = req.body;
+    const plant = await plantModel.findByIdAndUpdate(
+      _id,
+      { $pull: { comments: { _id: commentId } } },
+      { returnOriginal: false }
+    );
+
+    console.log("commentId :>> ", commentId);
+    console.log("_id", _id);
+
+    console.log(req.body);
+
+    if (!plant) {
+      return res.status(404).json({
+        msg: "Comment not found",
+      });
+    } else
+      res.status(200).json({
+        msg: "Comment deleted successfully",
+        // plant,
+      });
+  } catch (error) {
+    res.status(500).json({
+      msg: "Something went wrong",
+      error: error,
+    });
+  }
+};
+
+//add favourites
+const addFavourite = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const plant = await plantModel.findOne({
+      _id: req.body.plantId,
+    });
+
+    if (plant.favs.includes(userId)) {
+      return res.status(400).json({ message: "This plant is already in favs" });
+    }
+
+    const updatedUser = await plantModel.findOneAndUpdate(
+      { _id: req.body.plantId },
+      { $push: { favs: userId } },
+      { new: true }
+    );
+
+    return res.status(200).json({ msg: "Plant added to favs" });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ msg: "Error adding plant to favs", error: error });
+  }
+};
+
+export {
+  getAllPlants,
+  getPlantById,
+  postPlant,
+  deletePlant,
+  postComment,
+  deleteComment,
+  addFavourite,
+};
