@@ -101,16 +101,20 @@ function Pdp() {
       const result = await response.json();
       console.log(result);
       if (result.msg === "comment submitted") {
-        const updatedComments = [...selectedPlant.comments, newComment];
+        // const updatedComments = [...selectedPlant.comments, newComment];
+        setUpdatedComments(result.plant.comments);
         setSelectedPlant({
           ...selectedPlant,
-          comments: updatedComments,
-          author: loggedinUser.userName,
-          authorPicture: loggedinUser.userPicture,
+          comments: result.plant.comments,
         });
+        // setSelectedPlant({
+        //   ...selectedPlant,
+        //   comments: updatedComments,
+        //   author: loggedinUser.userName,
+        //   authorPicture: loggedinUser.userPicture,
+        // });
+
         setInputText("");
-        // setUpdatedComments(result.plant.comments);
-        // setInputText("");
       }
     } catch (error) {
       console.log("something went wrong", error);
@@ -149,7 +153,13 @@ function Pdp() {
         requestOptions3
       );
       const result = await response.json();
+
       setUpdatedComments(result.plant.comments);
+      setSelectedPlant({
+        ...selectedPlant,
+        comments: result.plant.comments,
+      });
+      setShowModal(false);
     } catch (error) {
       console.log("error", error);
     }
