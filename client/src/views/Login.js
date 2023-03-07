@@ -4,18 +4,25 @@ import { getToken } from "../utils/getToken";
 import { AuthContext } from "../store/AuthContext";
 
 function Login() {
-  // const [loginUser, setLoginUser] = useState(null);
   const [loginUser, setLoginUser] = useState({});
   const { login, loggedinUser, message } = useContext(AuthContext);
   const token = getToken();
+  const [isLoginDisabled, setIsLoginDisabled] = useState(true);
 
   // function handleController() {
   //   handleChangeHandler();
   // }
 
   const handleChangeHandler = (e) => {
-    setLoginUser({ ...loginUser, [e.target.name]: e.target.value });
-    // console.log("loginUser", loginUser);
+    const updatedLoginUser = { ...loginUser, [e.target.name]: e.target.value };
+    setLoginUser(updatedLoginUser);
+
+    setIsLoginDisabled(
+      updatedLoginUser.password?.length < 6 ||
+        !updatedLoginUser.email?.includes("@") ||
+        !updatedLoginUser.email?.includes(".") ||
+        !updatedLoginUser.password
+    );
   };
 
   const submitLogin = () => {
@@ -24,7 +31,11 @@ function Login() {
   return (
     <div>
       <div className="login-page">
-        {token ? <h1>Hello {loginUser.userName}</h1> : <h1>Please Login: </h1>}
+        {token ? (
+          <h1>Hello {loggedinUser.userName}</h1>
+        ) : (
+          <h1>Please Login: </h1>
+        )}
 
         <input
           // value={email}
@@ -45,19 +56,21 @@ function Login() {
         {message ? (
           <p>
             {" "}
-            <small>{message}</small>
+            <small style={{ backgroundColor: "white" }}>{message}</small>
           </p>
         ) : null}
         <button
           className="register-button"
           onClick={submitLogin}
-          // disabled={
-          //   loginUser.password.length < 6 ||
-          //   !loginUser.email.includes("@") ||
-          //   !loginUser.email.includes(".")
-          //     ? true
-          //     : false
-          // }
+          disabled={
+            isLoginDisabled
+            // loginUser.password.length < 6 ||
+            // !loginUser.email.includes("@") ||
+            // !loginUser.email.includes(".")
+            //   ? true
+            //   : false
+          }
+          style={{ opacity: isLoginDisabled ? 0.5 : 1 }}
         >
           Login
         </button>

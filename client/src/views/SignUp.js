@@ -4,9 +4,23 @@ import { Link } from "react-router-dom";
 const SignUp = () => {
   // Computed property Names, event handler for all 3 events
   const [newUser, setNewUser] = useState(null);
+  const [loginUser, setLoginUser] = useState({});
+  const [isSignupDisabled, setIsSignupDisabled] = useState(true);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState("");
 
   const handleChangeHandler = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    // setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    const updatedNewUser = { ...newUser, [e.target.name]: e.target.value };
+    setNewUser(updatedNewUser);
+
+    setIsSignupDisabled(
+      updatedNewUser.userName === "" ||
+        updatedNewUser.password?.length < 6 ||
+        !updatedNewUser.email?.includes("@") ||
+        !updatedNewUser.email?.includes(".") ||
+        !updatedNewUser.password
+    );
   };
 
   const fetchSignUp = async () => {
@@ -34,8 +48,10 @@ const SignUp = () => {
         requestOptions
       );
       const result = await response.json();
+      setMessage(result.msg);
       console.log(result);
     } catch (error) {
+      setError(error.msg);
       console.log("error", error);
     }
   };
@@ -79,22 +95,19 @@ const SignUp = () => {
           placeholder="Password"
           onChange={handleChangeHandler}
         />
-        {/* {errorMessage ? (
-        <p>
-          {" "}
-          <small>{errorMessage}</small>
-        </p>
-      ) : null} */}
+        {error || message ? (
+          <p>
+            {" "}
+            <small style={{ backgroundColor: "white" }}>
+              {message} {error}
+            </small>
+          </p>
+        ) : null}
         <button
           className="register-button"
           onClick={fetchSignUp}
-          // disabled={
-          //   newUser.password.length < 6 ||
-          //   !newUser.email.includes("@") ||
-          //   !newUser.email.includes(".")
-          //     ? true
-          //     : false
-          // }
+          disabled={isSignupDisabled}
+          style={{ opacity: isSignupDisabled ? 0.5 : 1 }}
         >
           Signup
         </button>
