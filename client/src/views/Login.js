@@ -62,14 +62,7 @@ function Login() {
         <button
           className="register-button"
           onClick={submitLogin}
-          disabled={
-            isLoginDisabled
-            // loginUser.password.length < 6 ||
-            // !loginUser.email.includes("@") ||
-            // !loginUser.email.includes(".")
-            //   ? true
-            //   : false
-          }
+          disabled={isLoginDisabled}
           style={{ opacity: isLoginDisabled ? 0.5 : 1 }}
         >
           Login

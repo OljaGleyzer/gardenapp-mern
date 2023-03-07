@@ -1,5 +1,6 @@
 import { useHref, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
+import { Button } from "react-bootstrap";
 import { useEffect } from "react";
 import { getToken } from "../utils/getToken";
 
@@ -183,10 +184,16 @@ const MyProfile = () => {
         <h2> Change your Information</h2>
         <>
           <form onSubmit={submitForm}>
-            <input type="file" onChange={attachFileHandler} />
-            <button type="submit" onClick={(e) => submitForm(e)}>
-              Upload picture
-            </button>
+            <div className="uplod-userfoto">
+              <input type="file" onChange={attachFileHandler} />
+              <Button
+                variant="dark"
+                type="submit"
+                onClick={(e) => submitForm(e)}
+              >
+                Upload picture
+              </Button>
+            </div>
           </form>
         </>
         <br />
@@ -208,9 +215,10 @@ const MyProfile = () => {
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <br />
-        <button type="button" onClick={() => userUpdate()}>
+        <Button variant="dark" type="button" onClick={() => userUpdate()}>
+          {" "}
           Update Profile
-        </button>
+        </Button>
         {/* </form> */}
         {/* {result && <p>Updated user profile: {JSON.stringify(result)}</p>} */}
       </div>

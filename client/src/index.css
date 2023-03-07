@@ -19,6 +19,7 @@ background-color: tomato;
   background-size: cover;
   background-repeat: repeat;
   background-position: center center;
+  padding-bottom: 5rem;
 } 
 
 .profile-page{
@@ -32,6 +33,12 @@ background-image: url(https://res.cloudinary.com/dvqfcis2q/image/upload/v1677248
 
     background-repeat: repeat;
     background-position: center center;
+}
+.uplod-userfoto{
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+
 }
 
 .login-page {
