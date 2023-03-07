@@ -232,10 +232,10 @@ function Pdp() {
                 selectedPlant.comments.map((comment, i) => {
                   return (
                     <div className="comment text-center" key={comment._id}>
-                      <p> Author: {comment.author}</p>
                       <img
                         src={comment.authorPicture}
                         alt="Avatar"
+                        className="comment-avatar"
                         style={{
                           width: "100px",
                           borderRadius: "50%",
@@ -243,13 +243,16 @@ function Pdp() {
                           objectFit: "cover",
                         }}
                       ></img>
-                      <p> Comment: {comment.text}</p>
-
+                      <div className="comment-detail">
+                        <p> Author: {comment.author}</p>
+                        <p> Comment: {comment.text}</p>
+                      </div>
                       {comment.author === loggedinUser.userName ? (
                         <>
                           <Button
                             variant="danger"
                             onClick={() => setShowModal(true)}
+                            className="delete-comment"
                           >
                             Delete Comment
                           </Button>
@@ -292,15 +295,16 @@ function Pdp() {
                 />
 
                 {loggedinUser ? (
-                  <button
+                  <Button
+                    variant="dark"
                     className="comment-button"
                     onClick={() => handleComment()}
                   >
                     Submit
-                  </button>
+                  </Button>
                 ) : (
                   <Link to="/login">
-                    <button> login first</button>
+                    <Button variant="dark"> login first</Button>
                   </Link>
                 )}
               </div>

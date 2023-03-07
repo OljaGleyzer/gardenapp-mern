@@ -218,7 +218,6 @@ function Home() {
           ) : (
             <p>Plesae Log in to add a plant</p>
           )}
-          ;
         </div>
 
         <br />

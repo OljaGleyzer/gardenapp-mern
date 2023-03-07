@@ -41,65 +41,67 @@ const SignUp = () => {
   };
 
   return (
-    <div className="login">
-      {/* {newUser.userName ? (
+    <div>
+      <div className="sign-up-page">
+        {/* {newUser.userName ? (
         console.log("loggedinUser", newUser)
       ) : ( */}
-      <h1>Please register: </h1>
-      {/*  )} */}
-      {/*
+        <h1>Please register: </h1>
+        {/*  )} */}
+        {/*
        <input
         value={userName}
         type="text"
         placeholder="Username"
         onChange={(e) => setUserName(e.target.value)}
       /> */}
-      <input
-        // value={password}
-        type="text"
-        name="userName"
-        id="userName"
-        placeholder="User Name"
-        onChange={handleChangeHandler}
-      />
-      <input
-        // value={email}
-        type="email"
-        name="email"
-        id="email"
-        placeholder="Email"
-        onChange={handleChangeHandler}
-      />
-      <input
-        // value={password}
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChangeHandler}
-      />
-      {/* {errorMessage ? (
+        <input
+          // value={password}
+          type="text"
+          name="userName"
+          id="userName"
+          placeholder="User Name"
+          onChange={handleChangeHandler}
+        />
+        <input
+          // value={email}
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          onChange={handleChangeHandler}
+        />
+        <input
+          // value={password}
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChangeHandler}
+        />
+        {/* {errorMessage ? (
         <p>
           {" "}
           <small>{errorMessage}</small>
         </p>
       ) : null} */}
-      <button
-        className="register-button"
-        onClick={fetchSignUp}
-        // disabled={
-        //   newUser.password.length < 6 ||
-        //   !newUser.email.includes("@") ||
-        //   !newUser.email.includes(".")
-        //     ? true
-        //     : false
-        // }
-      >
-        Signup
-      </button>
-      <Link to="/login">
-        <button className="login-button">Got an Acount? Login!</button>
-      </Link>
+        <button
+          className="register-button"
+          onClick={fetchSignUp}
+          // disabled={
+          //   newUser.password.length < 6 ||
+          //   !newUser.email.includes("@") ||
+          //   !newUser.email.includes(".")
+          //     ? true
+          //     : false
+          // }
+        >
+          Signup
+        </button>
+        <Link to="/login">
+          <button className="login-button">Got an Acount? Login!</button>
+        </Link>
+      </div>
     </div>
   );
 };
