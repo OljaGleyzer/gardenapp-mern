@@ -14,6 +14,9 @@ const MyProfile = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [newUsername, setNewUsername] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
+  const [isFileSelected, setIsFileSelected] = useState(false);
+  const [message, setMessage] = useState("");
   // const inputFileRef = useHref(null);
 
   const getProfile = async () => {
@@ -141,6 +144,7 @@ const MyProfile = () => {
         requestOptions3
       );
       const updatedUserProfile = await response.json();
+      setMessage(result.msg);
       console.log("updatedUserProfile", updatedUserProfile);
       setUserProfile({
         ...userProfile,
@@ -148,6 +152,8 @@ const MyProfile = () => {
         userName: updatedUserProfile.user.userName,
       });
       setResult(updatedUserProfile);
+      setNewUsername("");
+      setNewPassword("");
     } catch (error) {
       console.log("error", error);
     }
@@ -157,7 +163,10 @@ const MyProfile = () => {
     getProfile();
     console.log("usereffect running");
     // setUserProfile({ ...userProfile, userPicture: result.imageUrl });
-  }, []);
+    const hasValidUsername = newUsername.length >= 3;
+    const hasValidPassword = newPassword.length >= 6;
+    setIsUpdateDisabled(!hasValidUsername || !hasValidPassword);
+  }, [newUsername, newPassword]);
 
   return (
     <div className="profile-page">
@@ -215,7 +224,21 @@ const MyProfile = () => {
           onChange={(e) => setNewPassword(e.target.value)}
         />
         <br />
-        <Button variant="dark" type="button" onClick={() => userUpdate()}>
+        {error || message ? (
+          <p>
+            {" "}
+            <small style={{ backgroundColor: "white" }}>
+              {message} {error}
+            </small>
+          </p>
+        ) : null}
+        <Button
+          variant="dark"
+          type="button"
+          onClick={() => userUpdate()}
+          disabled={isUpdateDisabled}
+          style={{ opacity: isUpdateDisabled ? 0.5 : 1 }}
+        >
           {" "}
           Update Profile
         </Button>
