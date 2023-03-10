@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import useFetch from "../hooks/useFetch";
 import { useContext, useEffect, useState } from "react";
@@ -23,20 +23,11 @@ function Pdp() {
   const [commentAuthor, setCommentAuthor] = useState("");
 
   const { loggedinUser } = useContext(AuthContext);
-  console.log("%cloggedinUser", "color:orange", loggedinUser); //FIXME - loggedinUser is undefined why?
-
-  // const findCommentAuthor = () => {
-  //   selectedPlant.comments.map((comment) => {
-  //     setCommentAuthor(...commentAuthor, comment.author);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   findCommentAuthor();
-  // }, []);
+  console.log("%cloggedinUser", "color:orange", loggedinUser);
+  const redirectTo = useNavigate();
 
   console.log("loggedinUser.userName", loggedinUser.userName);
-  console.log("commentAuthor", commentAuthor);
+  // console.log("commentAuthor", commentAuthor);
 
   const handleDeletePlant = async () => {
     const token = getToken();
@@ -59,6 +50,7 @@ function Pdp() {
         requestOptions
       );
       const result = await response.json();
+      // redirectTo = "/";
       console.log(result);
     } catch (error) {
       console.log("error", error);
@@ -107,13 +99,6 @@ function Pdp() {
           ...selectedPlant,
           comments: result.plant.comments,
         });
-        // setSelectedPlant({
-        //   ...selectedPlant,
-        //   comments: updatedComments,
-        //   author: loggedinUser.userName,
-        //   authorPicture: loggedinUser.userPicture,
-        // });
-
         setInputText("");
       }
     } catch (error) {
@@ -159,15 +144,17 @@ function Pdp() {
         ...selectedPlant,
         comments: result.plant.comments,
       });
-      setShowModal(false);
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setShowModal(false);
     }
   };
 
   useEffect(() => {
     if (plant) {
       setSelectedPlant(plant.plantById[0]);
+      setUpdatedComments(plant.plantById[0].comments);
     }
   }, [plant]);
 
@@ -210,6 +197,7 @@ function Pdp() {
               <div className="product-img-container">
                 <img
                   className="container d-flex justify-content-center"
+                  alt="plant image"
                   src={selectedPlant.image}
                   style={{ height: "30em", width: "auto" }}
                 ></img>
@@ -275,7 +263,10 @@ function Pdp() {
                               </Button>
                               <Button
                                 variant="danger"
-                                onClick={() => handleDeleteComment(comment)}
+                                onClick={
+                                  () => handleDeleteComment(comment)
+                                  // selectedPlant.comments[0]
+                                }
                               >
                                 Delete
                               </Button>

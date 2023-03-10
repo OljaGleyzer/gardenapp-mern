@@ -144,7 +144,8 @@ const MyProfile = () => {
         requestOptions3
       );
       const updatedUserProfile = await response.json();
-      setMessage(result.msg);
+      setMessage(updatedUserProfile.msg);
+      console.log("message", message);
       console.log("updatedUserProfile", updatedUserProfile);
       setUserProfile({
         ...userProfile,

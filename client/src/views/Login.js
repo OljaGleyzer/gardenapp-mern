@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/getToken";
 import { AuthContext } from "../store/AuthContext";
 
@@ -8,6 +8,7 @@ function Login() {
   const { login, loggedinUser, message } = useContext(AuthContext);
   const token = getToken();
   const [isLoginDisabled, setIsLoginDisabled] = useState(true);
+  const navigateTo = useNavigate();
 
   // function handleController() {
   //   handleChangeHandler();
@@ -27,6 +28,9 @@ function Login() {
 
   const submitLogin = () => {
     login(loginUser.email, loginUser.password);
+    if (loggedinUser) {
+      navigateTo("/myprofile");
+    }
   };
   return (
     <div>
