@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getToken } from "../utils/getToken";
 import { AuthContext } from "../store/AuthContext";
@@ -28,10 +28,14 @@ function Login() {
 
   const submitLogin = () => {
     login(loginUser.email, loginUser.password);
+  };
+
+  useEffect(() => {
     if (loggedinUser) {
       navigateTo("/myprofile");
     }
-  };
+  }, [loggedinUser]);
+
   return (
     <div>
       <div className="login-page">

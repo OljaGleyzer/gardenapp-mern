@@ -82,6 +82,7 @@ const postPlant = async (req, res) => {
           },
         });
       } catch (error) {
+        console.log(error);
         console.log("error during posting");
         res.status(500).json({
           msg: "error during posting",

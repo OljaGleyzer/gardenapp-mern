@@ -54,6 +54,10 @@ function Pdp() {
       console.log(result);
     } catch (error) {
       console.log("error", error);
+    } finally {
+      setSelectedPlant(null);
+      setShowModal(false);
+      redirectTo("/");
     }
   };
 
