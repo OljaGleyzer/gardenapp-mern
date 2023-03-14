@@ -24,6 +24,22 @@ function Home() {
   const token = getToken();
 
   // Filter plants by harvest and germination months
+  const handleGerminationMonthChange = (event) => {
+    const value = event.target.value;
+    setGerminationMonth(value === "All" ? "" : value);
+    if (harvestMonth !== "") {
+      setHarvestMonth("");
+    }
+  };
+
+  const handleHarvestMonthChange = (event) => {
+    const value = event.target.value;
+    setHarvestMonth(value === "All" ? "" : value);
+    if (germinationMonth !== "") {
+      setGerminationMonth("");
+    }
+  };
+
   const filteredPlants = plants.filter((plant) => {
     if (harvestMonth && plant.harvest !== harvestMonth) {
       return false;
@@ -108,7 +124,8 @@ function Home() {
               id="harvest-month-select"
               className="form-select"
               value={harvestMonth}
-              onChange={(e) => setHarvestMonth(e.target.value)}
+              onChange={handleHarvestMonthChange}
+              // onChange={(e) => setHarvestMonth(e.target.value)}
             >
               <option value="">All</option>
               {harvestMonthOptions.map((month) => (
@@ -130,7 +147,8 @@ function Home() {
               id="germination-month-select"
               className="form-select"
               value={germinationMonth}
-              onChange={(e) => setGerminationMonth(e.target.value)}
+              onChange={handleGerminationMonthChange}
+              // onChange={(e) => setGerminationMonth(e.target.value)}
             >
               <option value="">All</option>
               {germinationMonthOptions.map((month) => (
