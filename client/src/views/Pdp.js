@@ -8,7 +8,7 @@ import { getToken } from "../utils/getToken";
 function Pdp() {
   const { _id } = useParams();
   console.log("useParams()", useParams());
-  const { plant, error, isLoading } = useFetch(_id); // add plant to pass it from useFetch but an array
+  const { plant, error, isLoading, fetchData } = useFetch(_id); // add plant to pass it from useFetch but an array
   console.log("plant", plant);
   const [selectedPlant, setSelectedPlant] = useState(null);
   console.log("selctedPlant", selectedPlant);
@@ -55,7 +55,8 @@ function Pdp() {
     } catch (error) {
       console.log("error", error);
     } finally {
-      setSelectedPlant(null);
+      fetchData();
+      // setSelectedPlant(null);
       setShowModal(false);
       redirectTo("/");
     }
@@ -98,11 +99,12 @@ function Pdp() {
       console.log(result);
       if (result.msg === "comment submitted") {
         // const updatedComments = [...selectedPlant.comments, newComment];
-        setUpdatedComments(result.plant.comments);
-        setSelectedPlant({
-          ...selectedPlant,
-          comments: result.plant.comments,
-        });
+        fetchData();
+        // setUpdatedComments(result.plant.comments);
+        // setSelectedPlant({
+        //   ...selectedPlant,
+        //   comments: result.plant.comments,
+        // });
         setInputText("");
       }
     } catch (error) {
@@ -142,12 +144,13 @@ function Pdp() {
         requestOptions3
       );
       const result = await response.json();
+      fetchData();
 
-      setUpdatedComments(result.plant.comments);
-      setSelectedPlant({
-        ...selectedPlant,
-        comments: result.plant.comments,
-      });
+      // setUpdatedComments(result.plant.comments);
+      // setSelectedPlant({
+      //   ...selectedPlant,
+      //   comments: result.plant.comments,
+      // });
     } catch (error) {
       console.log("error", error);
     } finally {

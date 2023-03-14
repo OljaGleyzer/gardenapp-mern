@@ -5,6 +5,10 @@ export const PlantsContext = createContext();
 
 export const PlantsContextProvider = (props) => {
   console.log("plants context run");
+
+  // const plants, setPlants ()
+  // const {data} = useFetch()
+  //
   const { plants, plant, error, isLoading, setPlants } = useFetch();
   // console.log("plant", plant);
 

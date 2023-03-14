@@ -53,16 +53,53 @@ export const AuthContextProvider = (props) => {
     setLoggedinUser(null);
   };
 
+  const getProfile = async () => {
+    const token = getToken();
+
+    if (token) {
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/users/myprofile",
+          requestOptions
+        );
+        const result = await response.json();
+        console.log("result>>", result);
+        setLoggedinUser(result.user);
+        // setUserProfile({
+        //   userName: result.user.userName,
+        //   email: result.user.email,
+        //   userPicture: result.user.userPicture,
+        // });
+        // console.log("userProfile", userProfile);
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      console.log("you need to log in first");
+      setError("you need to log in first");
+      setLoggedinUser(null);
+    }
+  };
+
   useEffect(() => {
     const token = getToken();
     console.log("token", token);
 
     if (token) {
+      getProfile(token);
       console.log("LOGGED IN");
     } else {
       console.log("NOT logged in");
     }
-  }, [loggedinUser]);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -71,10 +108,9 @@ export const AuthContextProvider = (props) => {
         // loginUser,
         // setLoginUser,
         loggedinUser,
-
+        setLoggedinUser,
         login,
         logout,
-        getToken,
         message,
       }}
     >

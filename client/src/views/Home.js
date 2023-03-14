@@ -3,6 +3,7 @@ import PlantCard from "../components/PlantCard";
 import { PlantsContext } from "../store/PlantsContext";
 import { Button, Modal, Form } from "react-bootstrap";
 import { getToken } from "../utils/getToken";
+import useFetch from "../hooks/useFetch";
 
 function Home() {
   const [harvestMonth, setHarvestMonth] = useState("");
@@ -18,8 +19,12 @@ function Home() {
     image: "",
   });
 
-  const { plants, plant, error, isLoading } = useContext(PlantsContext);
+  const { plants, fetchData } = useFetch();
   console.log("Home data", plants);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const token = getToken();
 
@@ -95,6 +100,7 @@ function Home() {
       const data = await response.json();
       console.log(data);
       setShowModal(false);
+      fetchData();
     } catch (error) {
       console.error(error);
     }

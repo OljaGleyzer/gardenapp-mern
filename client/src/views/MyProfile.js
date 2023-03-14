@@ -3,13 +3,14 @@ import { useContext, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useEffect } from "react";
 import { getToken } from "../utils/getToken";
+import { AuthContext } from "../store/AuthContext";
 
 const MyProfile = () => {
   const [error, setError] = useState(null);
-  const [userProfile, setUserProfile] = useState({
-    userName: "",
-    password: "",
-  });
+  // const [userProfile, setUserProfile] = useState({
+  //   userName: "",
+  //   password: "",
+  // });
   const [result, setResult] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [newUsername, setNewUsername] = useState("");
@@ -17,42 +18,43 @@ const MyProfile = () => {
   const [isUpdateDisabled, setIsUpdateDisabled] = useState(true);
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [message, setMessage] = useState("");
+  const { loggedinUser, setLoggedinUser } = useContext(AuthContext);
   // const inputFileRef = useHref(null);
 
-  const getProfile = async () => {
-    const token = getToken();
+  // const getProfile = async () => {
+  //   const token = getToken();
 
-    if (token) {
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+  //   if (token) {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Authorization", `Bearer ${token}`);
 
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      };
+  //     const requestOptions = {
+  //       method: "GET",
+  //       headers: myHeaders,
+  //     };
 
-      try {
-        const response = await fetch(
-          "http://localhost:5000/api/users/myprofile",
-          requestOptions
-        );
-        const result = await response.json();
-        console.log("result>>", result);
-        setUserProfile({
-          userName: result.user.userName,
-          email: result.user.email,
-          userPicture: result.user.userPicture,
-        });
-        // console.log("userProfile", userProfile);
-      } catch (error) {
-        console.log("error", error);
-      }
-    } else {
-      console.log("you need to log in first");
-      setError("you need to log in first");
-      setUserProfile(null);
-    }
-  };
+  //     try {
+  //       const response = await fetch(
+  //         "http://localhost:5000/api/users/myprofile",
+  //         requestOptions
+  //       );
+  //       const result = await response.json();
+  //       console.log("result>>", result);
+  //       setUserProfile({
+  //         userName: result.user.userName,
+  //         email: result.user.email,
+  //         userPicture: result.user.userPicture,
+  //       });
+  //       // console.log("userProfile", userProfile);
+  //     } catch (error) {
+  //       console.log("error", error);
+  //     }
+  //   } else {
+  //     console.log("you need to log in first");
+  //     setError("you need to log in first");
+  //     setUserProfile(null);
+  //   }
+  // };
 
   const attachFileHandler = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -79,8 +81,8 @@ const MyProfile = () => {
       const result = await response.json();
       console.log("result", result);
 
-      setUserProfile({
-        ...userProfile,
+      setLoggedinUser({
+        ...loggedinUser,
         userPicture: result.imageUrl,
       });
 
@@ -112,11 +114,11 @@ const MyProfile = () => {
         console.log("error", error);
       }
 
-      setUserProfile({
-        ...userProfile,
+      setLoggedinUser({
+        ...loggedinUser,
         userPicture: result.imageUrl,
       });
-      console.log("userProfile", userProfile);
+      // console.log("userProfile", userProfile);
     } catch (error) {
       console.log("error :>> ", error);
     }
@@ -147,8 +149,8 @@ const MyProfile = () => {
       setMessage(updatedUserProfile.msg);
       console.log("message", message);
       console.log("updatedUserProfile", updatedUserProfile);
-      setUserProfile({
-        ...userProfile,
+      setLoggedinUser({
+        ...loggedinUser,
         password: updatedUserProfile.user.password,
         userName: updatedUserProfile.user.userName,
       });
@@ -161,7 +163,7 @@ const MyProfile = () => {
   };
 
   useEffect(() => {
-    getProfile();
+    // getProfile();
     console.log("usereffect running");
     // setUserProfile({ ...userProfile, userPicture: result.imageUrl });
     const hasValidUsername = newUsername.length >= 3;
@@ -172,11 +174,11 @@ const MyProfile = () => {
   return (
     <div className="profile-page">
       <div className="container text-center">
-        <h1> Welcome {userProfile?.userName}</h1>
+        <h1> Welcome {loggedinUser?.userName}</h1>
         <span className="user-picture">
-          {userProfile && (
+          {loggedinUser && (
             <img
-              src={userProfile.userPicture}
+              src={loggedinUser.userPicture}
               alt="Avatar"
               style={{
                 width: "100px",
@@ -189,8 +191,8 @@ const MyProfile = () => {
         </span>
 
         <h2> Personal Information</h2>
-        <p>Email: {userProfile?.email}</p>
-        <p>Username: {userProfile?.userName}</p>
+        <p>Email: {loggedinUser?.email}</p>
+        <p>Username: {loggedinUser?.userName}</p>
         <h2> Change your Information</h2>
         <>
           <form onSubmit={submitForm}>
