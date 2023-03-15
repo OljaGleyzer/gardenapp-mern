@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 function useFetch(_id) {
   const [plant, setPlant] = useState(null);
@@ -8,6 +8,11 @@ function useFetch(_id) {
   const url = _id
     ? `http://localhost:5000/api/plants/${_id}`
     : "http://localhost:5000/api/plants/all";
+
+  console.log("_id useFetch", _id);
+  useEffect(() => {
+    fetchData();
+  }, [_id]);
 
   async function fetchData() {
     try {

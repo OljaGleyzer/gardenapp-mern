@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
-import { PlantsContext } from "../store/PlantsContext";
 import { Button, Modal, Form } from "react-bootstrap";
 import { getToken } from "../utils/getToken";
 import useFetch from "../hooks/useFetch";

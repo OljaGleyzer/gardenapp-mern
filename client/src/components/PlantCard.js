@@ -9,10 +9,13 @@ function PlantCard({ plant }) {
   const redirectTo = useNavigate();
   return (
     <>
-      <Card style={{ height: "30em", overflow: "hidden" }} className="col">
+      <Card
+        style={{ height: "fit-content", overflow: "hidden" }}
+        className="col"
+      >
         <div className=" cardlist-card ">
           <Card.Img
-            style={{ height: "15em", width: "auto" }}
+            style={{ aspectRatio: "2/2", width: "100%", objectFit: "cover" }}
             variant="top"
             src={image}
             className="card-img-top"
@@ -24,12 +27,14 @@ function PlantCard({ plant }) {
 
               <Card.Text className=" text-wrap ">
                 {" "}
-                Germinating Month:
+                Germination:
                 {germinating_season}
+                <br />
+                Harvest: {harvest}
               </Card.Text>
-              <Card.Text className=" text-wrap ">
-                Harvest Month: {harvest}
-              </Card.Text>
+              {/* <Card.Text className=" text-wrap ">
+                Harvest Month: {harvest} */}
+              {/* </Card.Text> */}
               <br />
             </div>
             <div className="container d-flex align-items-baseline">

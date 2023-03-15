@@ -10,7 +10,7 @@ function Pdp() {
   console.log("useParams()", useParams());
   const { plant, error, isLoading, fetchData } = useFetch(_id); // add plant to pass it from useFetch but an array
   console.log("plant", plant);
-  const [selectedPlant, setSelectedPlant] = useState(null);
+  const [selectedPlant, setSelectedPlant] = useState("");
   console.log("selctedPlant", selectedPlant);
   const [showModal, setShowModal] = useState(false);
   const [newComment, setNewComment] = useState({
