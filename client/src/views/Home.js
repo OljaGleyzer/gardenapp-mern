@@ -130,7 +130,6 @@ function Home() {
               className="form-select"
               value={harvestMonth}
               onChange={handleHarvestMonthChange}
-              // onChange={(e) => setHarvestMonth(e.target.value)}
             >
               <option value="">All</option>
               {harvestMonthOptions.map((month) => (
@@ -153,7 +152,6 @@ function Home() {
               className="form-select"
               value={germinationMonth}
               onChange={handleGerminationMonthChange}
-              // onChange={(e) => setGerminationMonth(e.target.value)}
             >
               <option value="">All</option>
               {germinationMonthOptions.map((month) => (

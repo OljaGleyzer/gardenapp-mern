@@ -95,8 +95,6 @@ const MyProfile = () => {
 
         const urlencoded = new URLSearchParams();
         urlencoded.append("imageURL", result.imageUrl);
-        // urlencoded.append("password", result.newPassword);
-        // urlencoded.append("userName", result.newUsername);
 
         const requestOptions2 = {
           method: "PUT",
@@ -118,7 +116,6 @@ const MyProfile = () => {
         ...loggedinUser,
         userPicture: result.imageUrl,
       });
-      // console.log("userProfile", userProfile);
     } catch (error) {
       console.log("error :>> ", error);
     }

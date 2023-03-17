@@ -27,7 +27,6 @@ function Pdp() {
   const redirectTo = useNavigate();
 
   console.log("loggedinUser.userName", loggedinUser.userName);
-  // console.log("commentAuthor", commentAuthor);
 
   const handleDeletePlant = async () => {
     const token = getToken();
@@ -50,13 +49,12 @@ function Pdp() {
         requestOptions
       );
       const result = await response.json();
-      // redirectTo = "/";
+
       console.log(result);
     } catch (error) {
       console.log("error", error);
     } finally {
       fetchData();
-      // setSelectedPlant(null);
       setShowModal(false);
       redirectTo("/");
     }
@@ -213,9 +211,7 @@ function Pdp() {
               <p>Description: {selectedPlant.description}</p>
               <h5>Germinating month: {selectedPlant.germinating_season} </h5>
               <h5>Harvest month: {selectedPlant.harvest} </h5>
-              <div className=" align-items-baseline">
-                {/* <Button variant="primary">Save Me</Button> */}
-              </div>
+              <div className=" align-items-baseline"></div>
             </div>
 
             <h2 className="text-center">
@@ -270,10 +266,7 @@ function Pdp() {
                               </Button>
                               <Button
                                 variant="danger"
-                                onClick={
-                                  () => handleDeleteComment(comment)
-                                  // selectedPlant.comments[0]
-                                }
+                                onClick={() => handleDeleteComment(comment)}
                               >
                                 Delete
                               </Button>

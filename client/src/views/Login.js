@@ -10,10 +10,6 @@ function Login() {
   const [isLoginDisabled, setIsLoginDisabled] = useState(true);
   const navigateTo = useNavigate();
 
-  // function handleController() {
-  //   handleChangeHandler();
-  // }
-
   const handleChangeHandler = (e) => {
     const updatedLoginUser = { ...loginUser, [e.target.name]: e.target.value };
     setLoginUser(updatedLoginUser);
