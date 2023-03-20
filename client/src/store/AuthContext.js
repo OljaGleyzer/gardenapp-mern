@@ -29,7 +29,7 @@ export const AuthContextProvider = (props) => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:5000/api/users/login", requestOptions)
+    fetch(`${process.env.REACT_APP_SERVER}/api/users/login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result.msg);
@@ -67,7 +67,7 @@ export const AuthContextProvider = (props) => {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/api/users/myprofile",
+          `${process.env.REACT_APP_SERVER}/api/users/myprofile`,
           requestOptions
         );
         const result = await response.json();

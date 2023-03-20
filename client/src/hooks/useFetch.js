@@ -6,9 +6,8 @@ function useFetch(_id) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const url = _id
-    ? `http://localhost:5000/api/plants/${_id}`
-    : "http://localhost:5000/api/plants/all";
-
+    ? `${process.env.REACT_APP_SERVER}/api/plants/${_id}`
+    : `${process.env.REACT_APP_SERVER}/api/plants/all`;
   console.log("_id useFetch", _id);
   useEffect(() => {
     fetchData();

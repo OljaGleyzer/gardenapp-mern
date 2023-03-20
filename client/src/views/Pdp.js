@@ -45,7 +45,7 @@ function Pdp() {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/plants/all",
+        "${process.env.REACT_APP_SERVER}/api/plants/all",
         requestOptions
       );
       const result = await response.json();
@@ -90,7 +90,7 @@ function Pdp() {
       };
 
       const response = await fetch(
-        `http://localhost:5000/api/plants/${_id}/comments`,
+        `process.env.REACT_APP_SERVER/api/plants/${_id}/comments`,
         requestOptions2
       );
       const result = await response.json();
@@ -138,7 +138,7 @@ function Pdp() {
       };
 
       const response = await fetch(
-        `http://localhost:5000/api/plants/${_id}/comments`,
+        `process.env.REACT_APP_SERVER/api/plants/${_id}/comments`,
         requestOptions3
       );
       const result = await response.json();

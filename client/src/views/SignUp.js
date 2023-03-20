@@ -44,7 +44,7 @@ const SignUp = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/users/signup",
+        `${process.env.REACT_APP_SERVER}/api/users/signup`,
         requestOptions
       );
       const result = await response.json();

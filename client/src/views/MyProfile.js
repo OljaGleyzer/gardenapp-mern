@@ -35,7 +35,7 @@ const MyProfile = () => {
 
   //     try {
   //       const response = await fetch(
-  //         "http://localhost:5000/api/users/myprofile",
+  //         "process.env.REACT_APP_SERVER/api/users/myprofile",
   //         requestOptions
   //       );
   //       const result = await response.json();
@@ -75,7 +75,7 @@ const MyProfile = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/users/imageupload",
+        `${process.env.REACT_APP_SERVER}/api/users/imageupload`,
         requestOptions
       );
       const result = await response.json();
@@ -103,7 +103,7 @@ const MyProfile = () => {
         };
 
         fetch(
-          "http://localhost:5000/api/users/updateuserimage",
+          `${process.env.REACT_APP_SERVER}/api/users/updateuserimage`,
           requestOptions2
         )
           .then((response) => response.json())
@@ -139,7 +139,7 @@ const MyProfile = () => {
       };
 
       const response = await fetch(
-        "http://localhost:5000/api/users/updateuserinfo",
+        `${process.env.REACT_APP_SERVER}/api/users/updateuserinfo`,
         requestOptions3
       );
       const updatedUserProfile = await response.json();
