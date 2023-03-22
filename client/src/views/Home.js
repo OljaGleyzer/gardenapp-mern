@@ -93,7 +93,7 @@ function Home() {
     };
     try {
       const response = await fetch(
-        "${process.env.REACT_APP_SERVER}/api/plants/all",
+        `${process.env.REACT_APP_SERVER}/api/plants/all`,
         requestOptions
       );
       const data = await response.json();
