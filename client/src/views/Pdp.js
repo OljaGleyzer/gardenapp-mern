@@ -45,7 +45,7 @@ function Pdp() {
       };
 
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/plants/all}`,
+        `${process.env.REACT_APP_SERVER}/api/plants/all`,
         requestOptions
       );
       const result = await response.json();
